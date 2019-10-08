@@ -1,0 +1,25 @@
+﻿param(
+  [parameter(Position=0, Mandatory=$true)][string]$VirtualMachineName,
+  [parameter(Position=1, Mandatory=$true)][string]$FloppyPath,
+  [parameter(Mandatory=$false)][Switch]$HostDrive
+)
+
+#asdfsadf
+
+$vpc = New-Object -ComObject "VirtualPC.Application"
+$vm = $vpc.FindVirtualMachine($VirtualMachineName)
+if( $vm -eq $null )
+{
+    Write-Error "Virtual machine not found."
+}
+else
+{
+    if( $HostDrive )
+    {
+        $vm.FloppyDrives.Item(1).AttachHostDrive($FloppyPath)
+    }
+    else
+    {
+        $vm.FloppyDrives.Item(1).AttachImage($FloppyPath)
+    }
+}

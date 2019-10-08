@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"
+      encoding="utf-8" ?>
+<Foo xmlns:html="http://www.w3.org/1999/xhtml">
+  <html:a href='http://www.ookii.org'> not="an attribute"
+    <!-- A comment containing what looks like an <element> and a "string" -->
+  </html:a>
+  &lt;entities&gt;
+  <Foo-Bar test="single ' quotes are valid in double quoted attributes=" test2='and double " inside single'
+       test3="and &quot; valid anywhere"
+       >
+    <![CDATA[ A CDATA section 
+      Containing what looks like an <element> and a "string"
+    ]]>
+  </Foo-Bar>
+  <element.with.a.period.in.it attribute.with.period="test">
+  </element.with.a.period.in.it>
+</Foo>

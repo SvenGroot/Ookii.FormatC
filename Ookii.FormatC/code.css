@@ -1,0 +1,157 @@
+/* This is the default style sheet for syntax highlighting with FormatC 2.0.
+ * This stylesheet follows the default settings of Visual Studio,
+ * SQL Server Management Studio (for T-SQL), and PowerShell ISE 
+ * (for PowerShell) as much as possible.
+ *
+ * You can customize this stylesheet to suit your preferences.
+ */
+.code
+{
+	font-size: small;
+	font-family: Consolas, monospace;
+}
+.code .lineNumber, .code td.lineNumbers
+{
+	color: #808080;
+}
+.code pre
+{
+    margin: 0;
+}
+.code td
+{
+    padding: 0;
+}
+.code td.lineNumbers
+{
+    text-align: right;
+}
+.code .keyword, .code .preprocessor
+{
+	color: #00F;
+}
+.code .operator
+{
+	color: #C63;
+}
+.code .comment
+{
+	color: #008000;
+}
+.code .xmlLiteral .comment
+{
+	color: #629755;
+}
+.code .string
+{
+	color: #A31515;
+}
+.code .entity
+{
+	color: #F00;
+}
+.code .tagDelimiter, .code .attributeDelimiter
+{
+	color: #00F;
+}
+.code .xmlLiteral .tagDelimiter, .code .xmlLiteral .attributeDelimiter, .code .xmlDelimiter, .code .xmlImportAttributeDelimiter
+{
+	color: #6464B9;
+}
+.code .tagName
+{
+	color: #A31515;
+}
+.code .xmlLiteral .tagName
+{
+	color: #844646;
+}
+.code .attributeName
+{
+	color: #F00;	
+}
+.code .xmlLiteral .attributeName, .code .xmlImportAttributeName
+{
+	color: #B96464;
+}
+.code .attributeValue
+{
+	color: #00F
+}
+.code .xmlLiteral .attributeValue, .code .xmlImportAttributeValue
+{
+	color: #6464B9;
+}
+.code .cdata
+{
+	color: #808080;
+}
+.code .xmlLiteral .cdata
+{
+	color: #C0C0C0;
+}
+.code .type
+{
+	color: #2B91AF;
+}
+.code .xmlLiteral .embeddedExpressionDelimiter
+{
+	color: #555;
+	background-color: #FFFEBF;
+}
+.code .sqlString
+{
+	color: #F00;
+}
+.code .sqlSystemFunction
+{
+	color: #F0F;
+}
+.code .sqlOperator
+{
+	color: #808080;
+}
+.code .psVariable
+{
+    color: #FF4511;
+}
+.code .psComment
+{
+    color: #006400;
+}
+.code .psString
+{
+    color: #8B0000;
+}
+.code .psOperator
+{
+    color: #A9A9A9
+}
+.code .psCommand
+{
+    color: #0000FF;
+}
+.code .psCommandParameter
+{
+    color: #000080;
+}
+.code .psCommandArgument
+{
+    color: #8D2BE2;
+}
+.code .psAttribute
+{
+    color: #ADD8E6;
+}
+.code .psNumber
+{
+    color: #800080;
+}
+.code .psType
+{
+    color: #008080;
+}
+.code .psKeyword, .code .psLoopLabel
+{
+    color: #26008B;
+}

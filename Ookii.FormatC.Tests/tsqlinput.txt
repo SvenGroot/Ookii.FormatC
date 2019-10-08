@@ -1,0 +1,18 @@
+﻿--a comment containg a "string"
+/* and another comment
+ * containing what looks like -- a regular comment
+ * and a "string"
+ */
+
+SELECT * FROM Foo;
+
+SELECT [from] FROM "Select";
+
+INSERT INTO Bar(test, test1, test2)
+VALUES ('a string', 'another'' string\', N'A widechar'' string');
+
+select test from bar -- case insensitive test
+
+SELECT 'a string /* containing */' + ' what -- looks like a comment' /* and a real comment */
+
+SELECT @@VERSION;

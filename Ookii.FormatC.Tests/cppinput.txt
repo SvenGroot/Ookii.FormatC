@@ -1,0 +1,36 @@
+﻿#include <iostream>
+#using <System.dll>
+// A comment at the beginning of a line
+#include "test.h"
+/* A block comment at the beginning of a line */
+using namespace std;
+
+template<int x, int y>
+struct gcd
+{
+	/* Another block comment
+	 * containg a // regular comment
+	 * and what looks like a "string"
+	 */
+	static const int value = gcd<y, x % y>::value;
+};
+
+template<int x>
+struct gcd<x, 0>
+{
+	// A comment containing /* a block comment */ and what looks like a "string"
+	static const int value = x;
+};
+
+int main()
+{
+	int Int; // case sensitive test
+	int x = gcd<511, 42>::value;
+	cout << x << endl;
+	cout << "It's a \"string\\\" \\" << endl; /* another block comment */
+	cout << "A string /* containg what */ looks like // a comment." << endl; // and a real comment
+	cout << 'c' << '\'' << '\\' << endl;
+	cout << "more" << "than\"" << "one string on the same line" << endl;
+
+	return 0;
+}

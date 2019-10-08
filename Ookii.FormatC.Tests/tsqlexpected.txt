@@ -1,0 +1,18 @@
+﻿<pre class="code"><span class="comment">--a comment containg a "string"</span>
+<span class="comment">/* and another comment
+ * containing what looks like -- a regular comment
+ * and a "string"
+ */</span>
+
+<span class="keyword">SELECT</span> <span class="sqlOperator">*</span> <span class="keyword">FROM</span> Foo;
+
+<span class="keyword">SELECT</span> <span class="escapedIdentifier">[from]</span> <span class="keyword">FROM</span> <span class="escapedIdentifier">"Select"</span><span class="sqlOperator">;</span>
+
+<span class="keyword">INSERT</span> <span class="keyword">INTO</span> Bar(test, test1, test2)
+<span class="keyword">VALUES</span> <span class="sqlOperator">(</span><span class="sqlString">'a string'</span><span class="sqlOperator">,</span> <span class="sqlString">'another'</span><span class="sqlString">' string\'</span><span class="sqlOperator">,</span> <span class="sqlString">N'A widechar'</span><span class="sqlString">' string'</span><span class="sqlOperator">)</span><span class="sqlOperator">;</span>
+
+<span class="keyword">select</span> test <span class="keyword">from</span> bar <span class="comment">-- case insensitive test</span>
+
+<span class="keyword">SELECT</span> <span class="sqlString">'a string /* containing */'</span> <span class="sqlOperator">+</span> <span class="sqlString">' what -- looks like a comment'</span> <span class="comment">/* and a real comment */</span>
+
+<span class="keyword">SELECT</span> <span class="sqlSystemFunction">@@VERSION</span>;</pre>

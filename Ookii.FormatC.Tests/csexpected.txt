@@ -1,0 +1,41 @@
+﻿<pre class="code"><span class="keyword">using</span> System;
+<span class="comment">// A single line comment starting at the beginning of the line</span>
+<span class="keyword">using</span> System.IO;
+<span class="comment">/* A comment block starting at the beginning of the line */</span>
+
+
+<span class="keyword">namespace</span> CSharpTest
+{
+    <span class="comment">// A comment containing what looks like a "string"</span>
+    <span class="comment">// A comment containg /* what looks like */ a block comment</span>
+    <span class="comment">/* A multiline comment
+     * also containing a // regular comment
+     * And containing what looks like a "string"
+     */</span>
+
+    <span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Program</span>
+    {
+        <span class="comment">/// &lt;summary&gt;</span>
+        <span class="comment">/// An XML comment &lt;see cref="System.String" /&gt;.</span>
+        <span class="comment">/// &lt;/summary&gt;</span>
+        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Main()
+        {
+            <span class="keyword">int</span> Int; <span class="comment">// case sensitive test</span>
+            <span class="keyword">int</span> @int; <span class="comment">// escaping test</span>
+            <span class="keyword">int</span> from; <span class="comment">// contextual escaping test</span>
+            <span class="type">Console</span>.WriteLine(<span class="string">"A string \" \\\" hello \t\\"</span>);
+            <span class="type">Console</span>.WriteLine(<span class="string">"A string containing what // looks like a comment."</span>); <span class="comment">// followed by a real comment</span>
+            <span class="type">Console</span>.WriteLine(<span class="string">@"An @ string"" \"</span>); <span class="comment">/* and another comment */</span>
+            <span class="type">Console</span>.WriteLine(<span class="string">@"Another @ string """""</span>);
+            <span class="type">Console</span>.WriteLine(<span class="string">"{0} {1} {2}"</span>, <span class="string">"more than one\\"</span>, <span class="comment">/* embedded comment */</span> <span class="string">@"string on ""the same"</span>, <span class="string">"line"</span>);
+<span class="preprocessor">#if</span> PREPROCESSORTEST
+            <span class="keyword">for</span>( <span class="keyword">int</span> x = 0; x &lt; 10; ++x )
+            {
+                <span class="type">Console</span>.WriteLine(<span class="string">'x'</span>);
+                <span class="type">Console</span>.WriteLine(<span class="string">'\''</span>);
+                <span class="type">Console</span>.WriteLine(<span class="string">'\\'</span>);
+            }
+<span class="preprocessor">#endif</span>
+        }
+    }
+}</pre>

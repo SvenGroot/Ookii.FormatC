@@ -1,0 +1,30 @@
+﻿Imports System
+' A comment at the beginning of a line
+Imports System.IO
+REM A REM comment at the beginning of a line
+Imports <xmlns:a="http://www.ookii.org">
+
+Namespace VisualBasicTest
+    ' A comment, containing what looks like a "string"
+    REM A REM comment containg an ' ordinary comment
+    Public Class Program
+        Public Sub Main()
+            Dim [Integer] As Integer ' Escape test
+            Dim `From As String ' Contextual escape test
+
+            Console.WriteLine("A string""hello""")
+            for x = 0 to 10 ' Lowercase for case insensitive test.
+                Console.WriteLine("a"c)
+            Next
+            Dim foo = [xml]<?xml version="1.0"?>
+                      <Foo test=<%= Date.Now %> a:bar="baz">
+                          <%= If(a, [xml]<a />[/xml], [xml]<b c=<%= Date.UtcNow %>/>[/xml]) %>
+                      </Foo>[/xml]
+            Dim bar = From f In foo _
+                      Where f.<Foo>.@a:bar = "baz"
+#If TEST Then
+            Console.WriteLine("{0} {1} {2}", "more than one", "string on ""the same", "line");
+#End If
+        End Sub
+    End Class
+End Namespace

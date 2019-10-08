@@ -1,0 +1,685 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ookii.FormatC</name>
+    </assembly>
+    <members>
+        <member name="T:Ookii.FormatC.CodeElement">
+            <summary>
+            Represents an element of source code, such as keywords, comments or strings, and the regular expression
+            that can be used to identify them.
+            </summary>
+            <threadsafety static="true" instance="true" />
+        </member>
+        <member name="M:Ookii.FormatC.CodeElement.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.CodeElement" /> class with the specified name and regular
+            expression.
+            </summary>
+            <param name="name">The name of this pattern. This name will be used as the CSS class name in the generated HTML.</param>
+            <param name="regex">The regular expression for this code element.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <see langword="null" /> or <paramref name="regex"/> is <see langword="null" />.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="name"/> is an empty string.</exception>
+        </member>
+        <member name="M:Ookii.FormatC.CodeElement.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.CodeElement" /> class with the specified name and list of values.
+            </summary>
+            <param name="name">The name of this code element. This name will be used as the CSS class name for the generated HTML
+            elements.</param>
+            <param name="values">A list of identifiers that this code element should match.</param>
+            <remarks>This constructor automatically creates a pattern to match the specified values.</remarks>
+            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <see langword="null" /> or <paramref name="values"/> is <see langword="null" />.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="name"/> is an empty string.</exception>
+        </member>
+        <member name="P:Ookii.FormatC.CodeElement.Name">
+            <summary>
+            Gets the name of this code element.
+            </summary>
+            <value>
+            The name of this element.
+            </value>
+            <remarks>
+            This name will be used as the CSS class name for the generated HTML elements.
+            </remarks>
+        </member>
+        <member name="P:Ookii.FormatC.CodeElement.Regex">
+            <summary>
+            Gets the regular expression for this code element.
+            </summary>
+            <value>
+            The regular expression used to identify this code element. The regular expression will match the element in a group
+            with the name in the <see cref="P:Ookii.FormatC.CodeElement.Name"/> property.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.CodeElement.MatchValueProcessor">
+            <summary>
+            Gets or sets a delegate that will be used to process the value of the regex match.
+            </summary>
+            <value>A delegate that will be used to process the value of the regex match.</value>
+            <remarks>
+            <para>
+              Use this property if you want to change the text value that is added to the formatted result.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Ookii.FormatC.CodeElement.ElementNameIsCssClass">
+            <summary>
+            Gets or sets a value indicating whether the <see cref="P:Ookii.FormatC.CodeElement.Name"/> of this <see cref="T:Ookii.FormatC.CodeElement"/> is a CSS class to be used in the output.
+            </summary>
+            <value>
+            	<see langword="true"/> if the <see cref="P:Ookii.FormatC.CodeElement.Name"/> of this <see cref="T:Ookii.FormatC.CodeElement"/> is a CSS class to be used in the output; otherwise, <see langword="false"/>.
+            	The default value is <see langword="true"/>.
+            </value>
+        </member>
+        <member name="T:Ookii.FormatC.CodeFormatter">
+            <summary>
+            Provides source code syntax highlighting functionality.
+            </summary>
+            <remarks>
+            <para>
+              The <see cref="T:Ookii.FormatC.CodeFormatter"/> class will format source code based on the information provided
+              by an implementation of the <see cref="T:Ookii.FormatC.IFormattingInfo"/> interface.
+            </para>
+            <para>
+              The result will be HTML source code that will display the formatted source code when combined
+              with the appropriate style sheet.
+            </para>
+            </remarks>
+            <example>
+            <para>
+            The following code sample shows how to use the <see cref="T:Ookii.FormatC.CodeFormatter"/> class to format
+            C# source code.
+            </para>
+            <code>
+            CodeFormatter formatter = new CodeFormatter();
+            formatter.FormattingInfo = new CSharpFormattingInfo();
+            string formattedHtml = formatter.FormatCode(System.IO.File.ReadAllText("MySourceFile.cs"));</code>
+            </example>
+            <threadsafety static="true" instance="false" />
+        </member>
+        <member name="M:Ookii.FormatC.CodeFormatter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.CodeFormatter"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.CodeFormatter.FormattingInfo">
+            <summary>
+            Gets or sets the <see cref="T:Ookii.FormatC.IFormattingInfo" /> that provides information hot to format the source code.
+            </summary>
+            <value>
+            The <see cref="T:Ookii.FormatC.IFormattingInfo" /> that provides information hot to format the source code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.CodeFormatter.TabSpaces">
+            <summary>
+            Gets or sets the number of spaces that a tab character should be replaced with.
+            </summary>
+            <value>
+            The number of spaces that a tab character should be replaced with. The default value is 4.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.CodeFormatter.CssClass">
+            <summary>
+            Gets or sets the CSS class name to use on the &lt;pre&gt; element in the output HTML.
+            </summary>
+            <value>
+            The CSS class name to use on the &lt;pre&gt; element. The default value is "code".
+            </value>
+            <remarks>
+            <para>
+              If you change this value, you must also modify your CSS stylesheet accordingly.
+            </para>
+            <para>
+              If <see cref="P:Ookii.FormatC.CodeFormatter.LineNumberMode"/> is <see cref="F:Ookii.FormatC.LineNumberMode.Table"/>,
+              this class is applied to the encapsulating &lt;div&gt; element instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Ookii.FormatC.CodeFormatter.LineNumberMode">
+            <summary>
+            Gets or sets the line number mode.
+            </summary>
+            <value>One of the <see cref="T:Ookii.FormatC.LineNumberMode"/> values that indicates how line numbers are added to the output..</value>
+        </member>
+        <member name="P:Ookii.FormatC.CodeFormatter.LineNumberFormat">
+            <summary>
+            Gets or sets the format string used to format the line numbers.
+            </summary>
+            <value>
+            The <see href="http://msdn.microsoft.com/en-us/library/txafckwd.aspx">composite format string</see> used for format the line numbes. The default value is "{0,3}. ".
+            </value>
+            <remarks>
+            The format string should contain the "{0}" placeholder in the position where the number itself should be.
+            </remarks>
+        </member>
+        <member name="P:Ookii.FormatC.CodeFormatter.UsedFallbackFormatting">
+            <summary>
+            Gets a value indicating whether fallback formatting was used by the last call to <see cref="M:Ookii.FormatC.CodeFormatter.FormatCode(System.String)"/>.
+            </summary>
+            <value>
+            	<see langword="true"/> if, on the last call to <see cref="M:Ookii.FormatC.CodeFormatter.FormatCode(System.String)"/>, the <see cref="P:Ookii.FormatC.CodeFormatter.FormattingInfo"/> 
+            	supported <see cref="T:Ookii.FormatC.ICustomFormattingInfo"/> and custom formatting failed; otherwise, <see langword="false"/>.
+            </value>
+        </member>
+        <member name="M:Ookii.FormatC.CodeFormatter.FormatCode(System.String)">
+            <summary>
+            Formats the specifies source code as HTML.
+            </summary>
+            <param name="code">The code to format.</param>
+            <returns>The formatted HTML.</returns>
+            <example>For an example see <see cref="T:Ookii.FormatC.CodeFormatter"/>.</example>
+            <exception cref="T:System.InvalidOperationException"><see cref="P:Ookii.FormatC.CodeFormatter.FormattingInfo"/> is <see langword="null" />.</exception>
+        </member>
+        <member name="T:Ookii.FormatC.CPlusPlusFormattingInfo">
+            <summary>
+            Provides information for formatting C++ code.
+            </summary>
+            <threadsafety static="true" instance="true" />
+        </member>
+        <member name="M:Ookii.FormatC.CPlusPlusFormattingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.CPlusPlusFormattingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.CPlusPlusFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.CPlusPlusFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            Returns <see langword="true" />.
+            </value>
+        </member>
+        <member name="T:Ookii.FormatC.CSharpFormattingInfo">
+            <summary>
+            Provides formatting info for C# code.
+            </summary>
+            <remarks>
+            <para>
+              C# contains several keywords that are contextual keywords. For example, <c>from</c> is a keyword
+              in a Linq expression, but not elsewhere, and you can still have variables named <c>from</c>
+              without prefixing them with @.
+            </para>
+            <para>
+              Because of the limitations of regular expressions, the <see cref="T:Ookii.FormatC.CSharpFormattingInfo"/> cannot
+              determine when a contextual keyword should be treated as a keyword and when it should be treated
+              as a regular identifier. Because of this, it always treats them as keywords.
+            </para>
+            <para>
+              You can prefix an identifier that is also a contextual keyword with ` (e.g. <c>`from</c>) to prevent it from being
+              highlighted as a keyword. The ` character will not appear in the formatted output, and the identifier
+              will not be highlighted.
+            </para>
+            <para>
+              You can specify identifiers that should be colored as type names using the <see cref="P:Ookii.FormatC.CSharpFormattingInfo.Types"/> property.
+              These identifiers will then always be formatted as type names (even in contexts where they are not).
+              Like with contextual keywords, you can prefix an identifier with ` to prevent it from being highlighted
+              as a type name.
+            </para>
+            </remarks>
+            <threadsafety static="true" instance="false" />
+        </member>
+        <member name="M:Ookii.FormatC.CSharpFormattingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.CSharpFormattingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.CSharpFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.CSharpFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            Returns <see langword="true" />.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.CSharpFormattingInfo.Types">
+            <summary>
+            Gets or sets a list of identifiers that should be treated as type names.
+            </summary>
+            <value>
+            A list of identifiers that should be treated as type names.
+            </value>
+            <remarks>
+            <para>
+              The context in which these names occur is not considered, so they will be formatted as type names
+              in whatever context they occur.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Ookii.FormatC.ICustomFormattingInfo">
+            <summary>
+            Interface for classes that provide custom, not regex-based formatting.
+            </summary>
+            <remarks>
+            <para>
+              Implement this interface in addition to <see cref="T:Ookii.FormatC.IFormattingInfo"/> if you can do custom formatting, e.g.
+              using a parser.
+            </para>
+            <para>
+              If it's possible for parsing to fail (keep in mind that code formatters might be asked to process
+              incomplete fragments of code), make sure you return <see langword="null"/> from the <see cref="M:Ookii.FormatC.ICustomFormattingInfo.FormatCode(System.String)"/>
+              method (do not throw an exception), in which case the <see cref="T:Ookii.FormatC.CodeFormatter"/> will fall back
+              to regular regex-based formatting.
+            </para>
+            <para>
+              If your <see cref="M:Ookii.FormatC.ICustomFormattingInfo.FormatCode(System.String)"/> method does not return <see langword="null"/>, the members of
+              <see cref="T:Ookii.FormatC.IFormattingInfo"/> will not be used.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ookii.FormatC.ICustomFormattingInfo.FormatCode(System.String)">
+            <summary>
+            Formats the specified source code.
+            </summary>
+            <param name="code">The code to format.</param>
+            <returns>An HTML fragment containing the formatted code, or <see langword="null"/> if custom formatting 
+            failed and the <see cref="T:Ookii.FormatC.CodeFormatter"/> should fall back to regular formatting.</returns>
+        </member>
+        <member name="T:Ookii.FormatC.IFormattingInfo">
+            <summary>
+            Interface for classes that provide information for formatting a programming language.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.IFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+            <remarks>
+            <para>
+              When implementing this property, you should return a <see cref="T:Ookii.FormatC.CodeElement"/> for each element that needs
+              a different formatting style, such as keywords, comments or strings. The <see cref="P:Ookii.FormatC.CodeElement.Name"/> property
+              will be used as the CSS class name in the HTML output of the <see cref="T:Ookii.FormatC.CodeFormatter"/>.
+            </para>
+            <para>
+               When processing the source code, the <see cref="T:Ookii.FormatC.CodeFormatter"/> will process the patterns in the
+               order they are provided here.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Ookii.FormatC.IFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            <see langword="true" /> if the programming language is case sensitive; otherwise, <see langword="false" />.
+            </value>
+            <remarks>
+            <para>
+              When the value of this property is <see langword="false" />, the regular expressions provided
+              by the <see cref="P:Ookii.FormatC.IFormattingInfo.Patterns"/> property will be processed with the <see cref="F:System.Text.RegularExpressions.RegexOptions.IgnoreCase"/>
+              option set.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Ookii.FormatC.IFormattingInfoWithTypes">
+            <summary>
+            Interface for formatters that allow a custom set of identifiers to be treated as types.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.IFormattingInfoWithTypes.Types">
+            <summary>
+            Gets or sets a list of identifiers that should be treated as type names.
+            </summary>
+            <value>A list of identifiers that should be treated as type names.</value>
+        </member>
+        <member name="T:Ookii.FormatC.IMultilanguageFormattingInfo">
+            <summary>
+            Interface for formatters that support multiple languages besides the primary one.
+            </summary>
+            <remarks>
+            <para>
+              Some languages might support embedding regions of different languages. Examples of this
+              include XML literal in Visual Basic, or script regions in HTML.
+            </para>
+            <para>
+              The built-in <see cref="T:Ookii.FormatC.VisualBasicFormattingInfo"/> uses this to support XML literals.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ookii.FormatC.IMultilanguageFormattingInfo.SplitRegions(System.String,System.Int32,System.Int32)">
+            <summary>
+            Splits the source code into language regions.
+            </summary>
+            <param name="code">The code.</param>
+            <param name="index">The index in the code to start at.</param>
+            <param name="length">The number of characters from <paramref name="index"/> to process.</param>
+            <returns>A list of language regions.</returns>
+            <remarks>
+            	<para>
+            The identified regions may themselves contain multiple languages if the formatter
+            specified for that region supports <see cref="T:Ookii.FormatC.IMultilanguageFormattingInfo"/>. The
+            exception is if the <see cref="P:Ookii.FormatC.LanguageRegion.FormattingInfo"/> property is <see langword="null"/>
+            in which case the current formatter will be used, and the region will not be split again.
+            </para>
+            	<para>
+            For example, an XML literal in Visual Basic can contain embedded expressions with VB code.
+            The VB formatter doesn't need to identify the embedded expressions; the XML formatter will
+            do that.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Ookii.FormatC.LanguageRegion">
+            <summary>
+            Represents a region of multi-language source code that should be formatted by a specific region.
+            </summary>
+            <remarks>
+            <para>
+              The specified region may itself contain multiple language regions if the formatter specified
+              is not <see langword="null"/> and implements <see cref="T:Ookii.FormatC.IMultilanguageFormattingInfo"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Ookii.FormatC.LanguageRegion.Start">
+            <summary>
+            Gets or sets the index in the source code of the first character of the language region.
+            </summary>
+            <value>The zero-based index in the source code of the first character of the language region.</value>
+        </member>
+        <member name="P:Ookii.FormatC.LanguageRegion.Length">
+            <summary>
+            Gets or sets the length of the language region.
+            </summary>
+            <value>The length of the language region.</value>
+        </member>
+        <member name="P:Ookii.FormatC.LanguageRegion.FormattingInfo">
+            <summary>
+            Gets or sets the formatting info used to highlight the language region.
+            </summary>
+            <value>The formatting info, or <see langword="null"/> to use the formatter that split the code into regions.</value>
+        </member>
+        <member name="P:Ookii.FormatC.LanguageRegion.CssClass">
+            <summary>
+            Gets or sets the CSS class for the entire language region.
+            </summary>
+            <value>The CSS class for the language region, or <see langword="null"/> if the region doesn't need to be surrounded by an element with a CSS class.</value>
+        </member>
+        <member name="P:Ookii.FormatC.LanguageRegion.NeedsFullContext">
+            <summary>
+            Gets or sets a value indicating whether the formatter needs the full source for context, not just the region itself.
+            </summary>
+            <value>
+            	<see langword="true"/> if the formatter needs the full source for context; otherwise, <see langword="false"/>.
+            </value>
+            <remarks>
+            <para>
+              This only applies if <see cref="P:Ookii.FormatC.LanguageRegion.FormattingInfo"/> is <see langword="null"/>.
+            </para>
+            <para>
+              If this property is <see langword="true" /> (and <see cref="P:Ookii.FormatC.LanguageRegion.FormattingInfo"/> is <see langword="null"/>), the formatter will use the
+              entire string, but with all regions that use different formatters removed.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Ookii.FormatC.LineNumberMode">
+            <summary>
+            Indicates if and how line numbers are added to the formatted code.
+            </summary>
+        </member>
+        <member name="F:Ookii.FormatC.LineNumberMode.None">
+            <summary>
+            No line numbers are added.
+            </summary>
+        </member>
+        <member name="F:Ookii.FormatC.LineNumberMode.Inline">
+            <summary>
+            Line numbers are added inline in front of every line.
+            </summary>
+        </member>
+        <member name="F:Ookii.FormatC.LineNumberMode.Table">
+            <summary>
+            The result is encapsulated in a table with the line numbers in a seperate cell.
+            This has the advantage of allowing the entire code to be selectable without selecting the
+            line numbers.
+            </summary>
+        </member>
+        <member name="T:Ookii.FormatC.PowerShellFormattingInfo">
+            <summary>
+            Provides formatting information for Microsoft PowerShell scripts.
+            </summary>
+            <threadsafety static="true" instance="true" />
+        </member>
+        <member name="M:Ookii.FormatC.PowerShellFormattingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.PowerShellFormattingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.PowerShellFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.PowerShellFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            Returns <see langword="true" />.
+            </value>
+        </member>
+        <member name="M:Ookii.FormatC.PowerShellFormattingInfo.FormatCode(System.String)">
+            <summary>
+            Formats the specified source code.
+            </summary>
+            <param name="code">The code to format.</param>
+            <returns>
+            An HTML fragment containing the formatted code, or <see langword="null"/> if custom formatting
+            failed and the <see cref="T:Ookii.FormatC.CodeFormatter"/> should fall back to regular formatting.
+            </returns>
+        </member>
+        <member name="T:Ookii.FormatC.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.Properties.Resources.Error_IndexOrLengthOutOfRange">
+            <summary>
+              Looks up a localized string similar to The index must be zero, and the sum of index and length must be less than or equal to the string length..
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.Properties.Resources.Error_LengthLessThanZero">
+            <summary>
+              Looks up a localized string similar to The length must be zero or larger..
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.Properties.Resources.Error_NameEmptyString">
+            <summary>
+              Looks up a localized string similar to Argument &quot;name&quot; may not be an empty string..
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.Properties.Resources.Error_NoFormattingInfo">
+            <summary>
+              Looks up a localized string similar to You must set IFormattingInfo before calling FormatCode..
+            </summary>
+        </member>
+        <member name="T:Ookii.FormatC.TSqlFormattingInfo">
+            <summary>
+            Provides formatting information for Transact-SQL scripts.
+            </summary>
+            <threadsafety static="true" instance="true" />
+        </member>
+        <member name="M:Ookii.FormatC.TSqlFormattingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.TSqlFormattingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.TSqlFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.TSqlFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            Returns <see langword="false" />.
+            </value>
+        </member>
+        <member name="T:Ookii.FormatC.VisualBasicFormattingInfo">
+            <summary>
+            Provides formatting info for Visual Basic code.
+            </summary>
+            <remarks>
+            <para>
+              Visual Basic contains several keywords that are contextual keywords. For example, <c>From</c> is a keyword
+              in a Linq expression, but not elsewhere, and you can still have variables named <c>From</c>
+              without enclosing them in [].
+            </para>
+            <para>
+              Because of the limitations of regular expressions, the <see cref="T:Ookii.FormatC.VisualBasicFormattingInfo"/> cannot
+              determine when a contextual keyword should be treated as a keyword and when it should be treated
+              as a regular identifier. Because of this, it always treats them as keywords.
+            </para>
+            <para>
+              You can prefix an identifier that is also a contextual keyword with ` (e.g. <c>`From</c>) to prevent it from being
+              highlighted as a keyword. The ` character will not appear in the formatted output, and the identifier
+              will not be highlighted.
+            </para>
+            <para>
+              You can specify identifiers that should be colored as type names using the <see cref="P:Ookii.FormatC.VisualBasicFormattingInfo.Types"/> property.
+              These identifiers will then always be formatted as type names (even in contexts where they are not).
+              Like with contextual keywords, you can prefix an identifier with ` to prevent it from being highlighted
+              as a type name.
+            </para>
+            <para>
+              XML literals are supported, however the XML literals must be marked explicitly with with [xml][/xml].
+              For example, this would look like this with a simple XML literal: <c>Dim xmlLiteral = [xml]&lt;Foo /&gt;[/xml]</c>.
+            </para>
+            <para>
+              The [xml][/xml] tags will not be included in the output, and the contents of those tags will be formatted
+              as XML literals. Embedded expressions in XML literals (which are delimited by &lt;%= %&gt; blocks) are also
+              supported, and the contents of embedded expressions will be formatted as Visual Basic code. However, due to the
+              limitations of regular expressions, having an XML literal inside an embedded expression in another XML
+              literal is not supported.
+            </para>
+            </remarks>
+            <threadsafety static="true" instance="true" />
+        </member>
+        <member name="M:Ookii.FormatC.VisualBasicFormattingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.VisualBasicFormattingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.VisualBasicFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.VisualBasicFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            Returns <see langword="false" />.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.VisualBasicFormattingInfo.Types">
+            <summary>
+            Gets or sets a list of identifiers that should be treated as type names.
+            </summary>
+            <value>
+            A list of identifiers that should be treated as type names.
+            </value>
+            <remarks>
+            <para>
+              The context in which these names occur is not considered, so they will be formatted as type names
+              in whatever context they occur.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Ookii.FormatC.VisualBasicFormattingInfo.SplitRegions(System.String,System.Int32,System.Int32)">
+            <summary>
+            Splits the source code into language regions.
+            </summary>
+            <param name="code">The code.</param>
+            <param name="index">The index in the code to start at.</param>
+            <param name="length">The number of characters from <paramref name="index"/> to process.</param>
+            <returns>A list of language regions.</returns>
+        </member>
+        <member name="T:Ookii.FormatC.XmlFormattingInfo">
+            <summary>
+            Provides formatting info for XML documents.
+            </summary>
+            <remarks>
+            <para>
+              Because the XML formatter is regular expression based, it has some limitations.
+            </para>
+            <para>
+              The most important is that use of the > character as text (not part of an XML tag) is not handled correctly. If the > character
+              occurs within an attribute value, any further attributes of that element will not be colored correctly.
+              If the > character occurs in the text content of the document, it will be colored as an element delimiter.
+            </para>
+            <para>
+              To avoid these issues, we recommend that you encode the > character as &amp;gt; in XML documents that you
+              wish to process with FormatC.
+            </para>
+            </remarks>
+            <threadsafety static="true" instance="true" />
+        </member>
+        <member name="M:Ookii.FormatC.XmlFormattingInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ookii.FormatC.XmlFormattingInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:Ookii.FormatC.XmlFormattingInfo.Patterns">
+            <summary>
+            Gets a list of regular expression patterns used to identify elements of the code.
+            </summary>
+            <value>
+            A list of <see cref="T:Ookii.FormatC.CodeElement"/> classes that provide regular expressions for identifying elements of the code.
+            </value>
+        </member>
+        <member name="P:Ookii.FormatC.XmlFormattingInfo.CaseSensitive">
+            <summary>
+            Gets a value that indicates whether the language to be formatted is case sensitive.
+            </summary>
+            <value>
+            Returns <see langword="true" />.
+            </value>
+        </member>
+        <member name="T:Ookii.FormatC.XmlLiteralFormattingInfo">
+            <summary>
+            Used for VB XML literals; mostly the same as XmlFormattingInfo, only it supports embedded expressions.
+            </summary>
+        </member>
+    </members>
+</doc>

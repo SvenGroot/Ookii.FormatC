@@ -1,0 +1,41 @@
+﻿using System;
+// A single line comment starting at the beginning of the line
+using System.IO;
+/* A comment block starting at the beginning of the line */
+
+
+namespace CSharpTest
+{
+    // A comment containing what looks like a "string"
+    // A comment containg /* what looks like */ a block comment
+    /* A multiline comment
+     * also containing a // regular comment
+     * And containing what looks like a "string"
+     */
+
+    public class Program
+    {
+        /// <summary>
+        /// An XML comment <see cref="System.String" />.
+        /// </summary>
+        public static void Main()
+        {
+			int Int; // case sensitive test
+			int @int; // escaping test
+			int `from; // contextual escaping test
+            Console.WriteLine("A string \" \\\" hello \t\\");
+            Console.WriteLine("A string containing what // looks like a comment."); // followed by a real comment
+            Console.WriteLine(@"An @ string"" \"); /* and another comment */
+            Console.WriteLine(@"Another @ string """"");
+            Console.WriteLine("{0} {1} {2}", "more than one\\", /* embedded comment */ @"string on ""the same", "line");
+#if PREPROCESSORTEST
+            for( int x = 0; x < 10; ++x )
+            {
+                Console.WriteLine('x');
+                Console.WriteLine('\'');
+                Console.WriteLine('\\');
+            }
+#endif
+        }
+    }
+}

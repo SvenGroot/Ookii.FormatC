@@ -1,0 +1,25 @@
+﻿<pre class="code"><span class="psKeyword">param</span><span class="psGroupStart">(</span>
+  <span class="psOperator">[</span><span class="psAttribute">parameter</span><span class="psGroupStart">(</span><span class="psMember">Position</span><span class="psOperator">=</span><span class="psNumber">0</span><span class="psOperator">,</span> <span class="psMember">Mandatory</span><span class="psOperator">=</span><span class="psVariable">$true</span><span class="psGroupEnd">)</span><span class="psOperator">]</span><span class="psType">[string]</span><span class="psVariable">$VirtualMachineName</span><span class="psOperator">,</span>
+  <span class="psOperator">[</span><span class="psAttribute">parameter</span><span class="psGroupStart">(</span><span class="psMember">Position</span><span class="psOperator">=</span><span class="psNumber">1</span><span class="psOperator">,</span> <span class="psMember">Mandatory</span><span class="psOperator">=</span><span class="psVariable">$true</span><span class="psGroupEnd">)</span><span class="psOperator">]</span><span class="psType">[string]</span><span class="psVariable">$FloppyPath</span><span class="psOperator">,</span>
+  <span class="psOperator">[</span><span class="psAttribute">parameter</span><span class="psGroupStart">(</span><span class="psMember">Mandatory</span><span class="psOperator">=</span><span class="psVariable">$false</span><span class="psGroupEnd">)</span><span class="psOperator">]</span><span class="psType">[Switch]</span><span class="psVariable">$HostDrive</span>
+<span class="psGroupEnd">)</span>
+
+<span class="psComment">#asdfsadf</span>
+
+<span class="psVariable">$vpc</span> <span class="psOperator">=</span> <span class="psCommand">New-Object</span> <span class="psCommandParameter">-ComObject</span> <span class="psString">"VirtualPC.Application"</span>
+<span class="psVariable">$vm</span> <span class="psOperator">=</span> <span class="psVariable">$vpc</span><span class="psOperator">.</span><span class="psMember">FindVirtualMachine</span><span class="psGroupStart">(</span><span class="psVariable">$VirtualMachineName</span><span class="psGroupEnd">)</span>
+<span class="psKeyword">if</span><span class="psGroupStart">(</span> <span class="psVariable">$vm</span> <span class="psOperator">-eq</span> <span class="psVariable">$null</span> <span class="psGroupEnd">)</span>
+<span class="psGroupStart">{</span>
+    <span class="psCommand">Write-Error</span> <span class="psString">"Virtual machine not found."</span>
+<span class="psGroupEnd">}</span>
+<span class="psKeyword">else</span>
+<span class="psGroupStart">{</span>
+    <span class="psKeyword">if</span><span class="psGroupStart">(</span> <span class="psVariable">$HostDrive</span> <span class="psGroupEnd">)</span>
+    <span class="psGroupStart">{</span>
+        <span class="psVariable">$vm</span><span class="psOperator">.</span><span class="psMember">FloppyDrives</span><span class="psOperator">.</span><span class="psMember">Item</span><span class="psGroupStart">(</span><span class="psNumber">1</span><span class="psGroupEnd">)</span><span class="psOperator">.</span><span class="psMember">AttachHostDrive</span><span class="psGroupStart">(</span><span class="psVariable">$FloppyPath</span><span class="psGroupEnd">)</span>
+    <span class="psGroupEnd">}</span>
+    <span class="psKeyword">else</span>
+    <span class="psGroupStart">{</span>
+        <span class="psVariable">$vm</span><span class="psOperator">.</span><span class="psMember">FloppyDrives</span><span class="psOperator">.</span><span class="psMember">Item</span><span class="psGroupStart">(</span><span class="psNumber">1</span><span class="psGroupEnd">)</span><span class="psOperator">.</span><span class="psMember">AttachImage</span><span class="psGroupStart">(</span><span class="psVariable">$FloppyPath</span><span class="psGroupEnd">)</span>
+    <span class="psGroupEnd">}</span>
+<span class="psGroupEnd">}</span></pre>

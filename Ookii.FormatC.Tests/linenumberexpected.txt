@@ -1,0 +1,42 @@
+﻿<pre class="code"><span class="lineNumber">  1. </span><span class="keyword">using</span> System;
+<span class="lineNumber">  2. </span><span class="comment">// A single line comment starting at the beginning of the line</span>
+<span class="lineNumber">  3. </span><span class="keyword">using</span> System.IO;
+<span class="lineNumber">  4. </span><span class="comment">/* A comment block starting at the beginning of the line */</span>
+<span class="lineNumber">  5. </span>
+<span class="lineNumber">  6. </span>
+<span class="lineNumber">  7. </span><span class="keyword">namespace</span> CSharpTest
+<span class="lineNumber">  8. </span>{
+<span class="lineNumber">  9. </span>    <span class="comment">// A comment containing what looks like a "string"</span>
+<span class="lineNumber"> 10. </span>    <span class="comment">// A comment containg /* what looks like */ a block comment</span>
+<span class="lineNumber"> 11. </span>    <span class="comment">/* A multiline comment
+<span class="lineNumber"> 12. </span>     * also containing a // regular comment
+<span class="lineNumber"> 13. </span>     * And containing what looks like a "string"
+<span class="lineNumber"> 14. </span>     */</span>
+<span class="lineNumber"> 15. </span>
+<span class="lineNumber"> 16. </span>    <span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Program</span>
+<span class="lineNumber"> 17. </span>    {
+<span class="lineNumber"> 18. </span>        <span class="comment">/// &lt;summary&gt;</span>
+<span class="lineNumber"> 19. </span>        <span class="comment">/// An XML comment &lt;see cref="System.String" /&gt;.</span>
+<span class="lineNumber"> 20. </span>        <span class="comment">/// &lt;/summary&gt;</span>
+<span class="lineNumber"> 21. </span>        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Main()
+<span class="lineNumber"> 22. </span>        {
+<span class="lineNumber"> 23. </span>            <span class="keyword">int</span> Int; <span class="comment">// case sensitive test</span>
+<span class="lineNumber"> 24. </span>            <span class="keyword">int</span> @int; <span class="comment">// escaping test</span>
+<span class="lineNumber"> 25. </span>            <span class="keyword">int</span> from; <span class="comment">// contextual escaping test</span>
+<span class="lineNumber"> 26. </span>            <span class="type">Console</span>.WriteLine(<span class="string">"A string \" \\\" hello \t\\"</span>);
+<span class="lineNumber"> 27. </span>            <span class="type">Console</span>.WriteLine(<span class="string">"A string containing what // looks like a comment."</span>); <span class="comment">// followed by a real comment</span>
+<span class="lineNumber"> 28. </span>            <span class="type">Console</span>.WriteLine(<span class="string">@"An @ string"" \"</span>); <span class="comment">/* and another comment */</span>
+<span class="lineNumber"> 29. </span>            <span class="type">Console</span>.WriteLine(<span class="string">@"Another @ string """""</span>);
+<span class="lineNumber"> 30. </span>            <span class="type">Console</span>.WriteLine(<span class="string">"{0} {1} {2}"</span>, <span class="string">"more than one\\"</span>, <span class="comment">/* embedded comment */</span> <span class="string">@"string on ""the same"</span>, <span class="string">"line"</span>);
+<span class="lineNumber"> 31. </span><span class="preprocessor">#if</span> PREPROCESSORTEST
+<span class="lineNumber"> 32. </span>            <span class="keyword">for</span>( <span class="keyword">int</span> x = 0; x &lt; 10; ++x )
+<span class="lineNumber"> 33. </span>            {
+<span class="lineNumber"> 34. </span>                <span class="type">Console</span>.WriteLine(<span class="string">'x'</span>);
+<span class="lineNumber"> 35. </span>                <span class="type">Console</span>.WriteLine(<span class="string">'\''</span>);
+<span class="lineNumber"> 36. </span>                <span class="type">Console</span>.WriteLine(<span class="string">'\\'</span>);
+<span class="lineNumber"> 37. </span>            }
+<span class="lineNumber"> 38. </span><span class="preprocessor">#endif</span>
+<span class="lineNumber"> 39. </span>        }
+<span class="lineNumber"> 40. </span>    }
+<span class="lineNumber"> 41. </span>}
+</pre>
