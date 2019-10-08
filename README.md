@@ -3,7 +3,7 @@
 Copyright © Sven Groot (Ookii.org)
 See license.txt for details
 
-FormatC is a class library for Microsoft .Net 4.0 that provides syntax
+FormatC is a class library for Microsoft .Net that provides syntax
 highlighting for several programming languages. FormatC includes support
 for C#, Visual Basic, C++, XML, Transact-SQL and PowerShell. FormatC can
 be extended to support other languages if necessary.
