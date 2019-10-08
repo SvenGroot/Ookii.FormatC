@@ -1,7 +1,6 @@
 # FormatC 2.0
 
 Copyright © Sven Groot (Ookii.org)
-See license.txt for details
 
 FormatC is a class library for Microsoft .Net that provides syntax
 highlighting for several programming languages. FormatC includes support
