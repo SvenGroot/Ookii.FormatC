@@ -1,6 +1,6 @@
 BSD license.
 
-Copyright © Sven Groot (Ookii.org)
+Copyright (c) Sven Groot (Ookii.org)
 All rights reserved.
 
 
