@@ -6,6 +6,10 @@
 # XML documentation files
 Ookii.FormatC/Ookii.FormatC.xml
 
+# SHFB output
+doc/Help
+doc/Debug
+
 # User-specific files
 *.rsuser
 *.suo
