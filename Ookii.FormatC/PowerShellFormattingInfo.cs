@@ -91,6 +91,11 @@ namespace Ookii.FormatC
         /// Gets or sets a value that indicates whether regular expression based formatting should
         /// be used even if System.Management.Automation.PSParser is available.
         /// </summary>
+        /// <value>
+        /// <see langword="true" /> to force the use of regular expression based formatting;
+        /// <see langword="false" /> to attempt PSParser based formatting first. The default value is
+        /// <see langword="false" />.
+        /// </value>
         public bool ForceFallbackFormatting { get; set; }
 
         /// <summary>

@@ -120,5 +120,38 @@ namespace Ookii.FormatC.Tests
             actual = target.FormatCode(code);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void CssClassTest()
+        {
+            var target = new CodeFormatter() { CssClass = "different" };
+            target.FormattingInfo = new CSharpFormattingInfo();
+            const string code = "int i = 5;";
+            const string expected = "<pre class=\"different\"><span class=\"keyword\">int</span> i = 5;</pre>";
+            var actual = target.FormatCode(code);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CssClassNullTest()
+        {
+            var target = new CodeFormatter() { CssClass = null };
+            target.FormattingInfo = new CSharpFormattingInfo();
+            const string code = "int i = 5;";
+            const string expected = "<pre><span class=\"keyword\">int</span> i = 5;</pre>";
+            var actual = target.FormatCode(code);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void IncludePreElementTest()
+        {
+            var target = new CodeFormatter() { IncludePreElement = false };
+            target.FormattingInfo = new CSharpFormattingInfo();
+            const string code = "int i = 5;";
+            const string expected = "<span class=\"keyword\">int</span> i = 5;";
+            var actual = target.FormatCode(code);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

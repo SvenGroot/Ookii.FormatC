@@ -37,8 +37,13 @@ namespace Ookii.FormatC
     {
         private IFormattingInfo _formattingInfo;
         private int _tabSpaces = 4;
-        private string _cssClass = "code";
         private string _lineNumberFormat = "{0,3}. ";
+
+        /// <summary>
+        /// The default CSS class for the &lt;pre&gt; element wrapping the formatted
+        /// output. The value is "code".
+        /// </summary>
+        public const string DefaultCssClass = "code";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeFormatter"/> class.
@@ -75,7 +80,8 @@ namespace Ookii.FormatC
         /// Gets or sets the CSS class name to use on the &lt;pre&gt; element in the output HTML.
         /// </summary>
         /// <value>
-        /// The CSS class name to use on the &lt;pre&gt; element. The default value is "code".
+        /// The CSS class name to use on the &lt;pre&gt; element. The default value is the value
+        /// of <see cref="DefaultCssClass"/>.
         /// </value>
         /// <remarks>
         /// <para>
@@ -85,13 +91,28 @@ namespace Ookii.FormatC
         ///   If <see cref="LineNumberMode"/> is <see cref="Ookii.FormatC.LineNumberMode.Table"/>,
         ///   this class is applied to the encapsulating &lt;div&gt; element instead.
         /// </para>
+        /// <para>
+        ///   If you set this value to <see langword="null"/>, the element will not have a CSS class.
+        /// </para>
+        /// <para>
+        ///   This property is ignored if <see cref="IncludePreElement"/> is <see langword="false" />.
+        /// </para>
         /// </remarks>
-        public string CssClass
-        {
-            get { return _cssClass; }
-            set { _cssClass = value; }
-        }
+        public string CssClass { get; set; } = DefaultCssClass;
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether to emit the &lt;pre&gt; element in the
+        /// output HTML.
+        /// </summary>
+        /// <value>
+        /// <see langword="true" /> to omit the element; <see langword="false" /> to emit the
+        /// formatted code without a wrapping element. The default value is <see langword="true" />.
+        /// </value>
+        /// <remarks>
+        /// This property is ignored when using <see cref="LineNumberMode.Table"/>, which always
+        /// emits the &lt;pre&gt; element along with the table holding the line numbers.
+        /// </remarks>
+        public bool IncludePreElement { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the line number mode.
@@ -158,7 +179,17 @@ namespace Ookii.FormatC
                 return result.ToString(); // The <pre> is already added by this method.
             }
 
-            return "<pre class=\"" + CssClass + "\">" + result.ToString() + "</pre>";
+            if (IncludePreElement)
+            {
+                if (CssClass != null)
+                {
+                    return $"<pre class=\"{CssClass}\">{result}</pre>";
+                }
+
+                return $"<pre>{result}</pre>";
+            }
+
+            return result.ToString();
         }
 
         private void AddInlineLineNumbers(StringBuilder result)
@@ -187,9 +218,13 @@ namespace Ookii.FormatC
             result.Length = 0;
             int lineNumber = 0;
 
-            result.Append("<div class=\"");
-            result.Append(CssClass);
-            result.Append("\"><table><tr><td class=\"lineNumbers\">");
+            result.Append("<div");
+            if (CssClass != null)
+            {
+                result.AppendFormat(" class=\"{0}\"", CssClass);
+            }
+
+            result.Append("><table><tr><td class=\"lineNumbers\">");
 
             using( StringReader reader = new StringReader(temp) )
             {
