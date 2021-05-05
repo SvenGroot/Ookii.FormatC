@@ -3,6 +3,8 @@
 using Ookii.FormatC;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Reflection;
+
 namespace Ookii.FormatC.Tests
 {
     
@@ -87,6 +89,20 @@ namespace Ookii.FormatC.Tests
             string actual;
             actual = target.FormatCode(code);
             Assert.IsFalse(target.UsedFallbackFormatting);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void PowerShellFormattingInfoFallbackTest()
+        {
+            CodeFormatter target = new CodeFormatter();
+            target.FormattingInfo = new PowerShellFormattingInfo() { ForceFallbackFormatting = true };
+            string code = File.ReadAllText("psinput.txt");
+            string expected = File.ReadAllText("psfallbackexpected.txt");
+            string actual;
+            actual = target.FormatCode(code);
+            Assert.IsTrue(target.UsedFallbackFormatting);
+            System.Console.WriteLine(actual);
             Assert.AreEqual(expected, actual);
         }
 

@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>ookii.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <Authors>Sven Groot</Authors>
     <Company>Ookii.org</Company>
     <Description>Ookii.FormatC is a .Net class library that allows you to add syntax highlighting to your C#, Visual Basic, C++, XML, HTML, Transact-SQL or PowerShell source code, so you can publish it on a web page or blog post.</Description>
@@ -16,6 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>syntax highlighting parsing highlight parse format</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageReleaseNotes>- Removed System.Management.Automation dependency. PowerShell formatting with the PSParser class is still possible, but now requires the library consumer to reference System.Management.Automation or pass the assembly to the PowerShellFormattingInfo class constructor.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
@@ -28,12 +29,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="System.Management.Automation">
-      <Version>6.2.3</Version>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,18 @@ namespace Ookii.FormatC
     /// <summary>
     /// Provides formatting information for Microsoft PowerShell scripts.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    ///   This formatter will use System.Management.Automation to tokenize PowerShell code for more
+    ///   accurate formatting. To use this, you must either reference System.Management.Automation
+    ///   in your project, or manually load the assembly and pass it to the constructor.
+    /// </para>
+    /// <para>
+    ///   If the System.Management.Automation.PSParser type could not used, regular expression
+    ///   based formatting will be used and the <see cref="CodeFormatter.UsedFallbackFormatting"/>
+    ///   will be set to <see langword="true"/> after the formatting operation.
+    /// </para>
+    /// </remarks>
     /// <threadsafety static="true" instance="true" />
     public class PowerShellFormattingInfo : IFormattingInfo, ICustomFormattingInfo
     {
@@ -39,6 +51,8 @@ namespace Ookii.FormatC
             Position = 19,
         }
 
+        private const string PSParserTypeName = "System.Management.Automation.PSParser, System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35";
+
         private static readonly CodeElement[] _patterns = new CodeElement[] {
                     new CodeElement("psComment", @"#.*?$"),
                     new CodeElement("psString", @""".*?""|'.*?'"),
@@ -51,14 +65,33 @@ namespace Ookii.FormatC
                     new CodeElement("psVariable", @"\$[a-zA-Z0-9]+")
         };
 
-        private static readonly Type _parserType = Type.GetType("System.Management.Automation.PSParser, System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35", false);
+        private readonly Type _parserType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerShellFormattingInfo"/> class.
         /// </summary>
-        public PowerShellFormattingInfo()
+        /// <param name="systemManagementAutomation">The System.Management.Automation assembly used to load the PSParser from.
+        /// If <see langword="null" />, <see cref="PowerShellFormattingInfo"/> attempts to load the type directly
+        /// which requires the consuming project to reference System.Management.Automation directly.</param>
+        public PowerShellFormattingInfo(Assembly systemManagementAutomation = null)
         {
+            if (systemManagementAutomation == null)
+            {
+                // Attempt to load the PowerShell type. That way, if the project that's using Ookii.FomatC
+                // references System.Management.Automation, it'll just work without any code changes.
+                _parserType = Type.GetType(PSParserTypeName, false);
+            }
+            else
+            {
+                _parserType = systemManagementAutomation.GetType(PSParserTypeName, false);
+            }
         }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether regular expression based formatting should
+        /// be used even if System.Management.Automation.PSParser is available.
+        /// </summary>
+        public bool ForceFallbackFormatting { get; set; }
 
         /// <summary>
         /// Gets a list of regular expression patterns used to identify elements of the code.
@@ -95,7 +128,7 @@ namespace Ookii.FormatC
             if( code == null )
                 throw new ArgumentNullException(nameof(code));
 
-            if( _parserType != null )
+            if( _parserType != null && !ForceFallbackFormatting )
             {
                 object[] args = new object[] { code, null };
                 IList tokens = (IList)_parserType.InvokeMember("Tokenize", BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static, null, null, args, CultureInfo.CurrentCulture);
@@ -146,6 +179,12 @@ namespace Ookii.FormatC
             currentLine = token.EndLine;
             currentColumn = token.EndColumn;
             return tokenValue;
+        }
+
+        private static Type LoadPowerShellParserType()
+        {
+            Assembly assembly = Assembly.Load("System.Management.Automation");
+            return null;
         }
     }
 }

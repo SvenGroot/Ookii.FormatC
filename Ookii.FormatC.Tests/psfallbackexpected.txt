@@ -1,0 +1,25 @@
+﻿<pre class="code"><span class="psKeyword">param</span>(
+  [parameter(Position=0, Mandatory=<span class="psVariable">$true</span>)][string]<span class="psVariable">$VirtualMachineName</span>,
+  [parameter(Position=1, Mandatory=<span class="psVariable">$true</span>)][string]<span class="psVariable">$FloppyPath</span>,
+  [parameter(Mandatory=<span class="psVariable">$false</span>)][<span class="psKeyword">Switch</span>]<span class="psVariable">$HostDrive</span>
+)
+
+<span class="psComment">#asdfsadf</span>
+
+<span class="psVariable">$vpc</span> = New-Object -ComObject <span class="psString">"VirtualPC.Application"</span>
+<span class="psVariable">$vm</span> = <span class="psVariable">$vpc</span>.FindVirtualMachine(<span class="psVariable">$VirtualMachineName</span>)
+<span class="psKeyword">if</span>( <span class="psVariable">$vm</span> <span class="psOperator">-eq</span> <span class="psVariable">$null</span> )
+{
+    Write-Error <span class="psString">"Virtual machine not found."</span>
+}
+<span class="psKeyword">else</span>
+{
+    <span class="psKeyword">if</span>( <span class="psVariable">$HostDrive</span> )
+    {
+        <span class="psVariable">$vm</span>.FloppyDrives.Item(1).AttachHostDrive(<span class="psVariable">$FloppyPath</span>)
+    }
+    <span class="psKeyword">else</span>
+    {
+        <span class="psVariable">$vm</span>.FloppyDrives.Item(1).AttachImage(<span class="psVariable">$FloppyPath</span>)
+    }
+}</pre>
