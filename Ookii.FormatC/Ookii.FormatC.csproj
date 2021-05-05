@@ -16,7 +16,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>syntax highlighting parsing highlight parse format</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageReleaseNotes>- Removed System.Management.Automation dependency. PowerShell formatting with the PSParser class is still possible, but now requires the library consumer to reference System.Management.Automation or pass the assembly to the PowerShellFormattingInfo class constructor.</PackageReleaseNotes>
+    <PackageReleaseNotes>- Removed System.Management.Automation dependency. PowerShell formatting with the PSParser class is still possible, but now requires the library consumer to reference System.Management.Automation or pass the assembly to the PowerShellFormattingInfo class constructor.
+- Updated C# keywords for C# 9.0.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">

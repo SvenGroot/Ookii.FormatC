@@ -7,7 +7,7 @@
 <span class="lineNumber">  7. </span><span class="keyword">namespace</span> CSharpTest
 <span class="lineNumber">  8. </span>{
 <span class="lineNumber">  9. </span>    <span class="comment">// A comment containing what looks like a "string"</span>
-<span class="lineNumber"> 10. </span>    <span class="comment">// A comment containg /* what looks like */ a block comment</span>
+<span class="lineNumber"> 10. </span>    <span class="comment">// A comment containing /* what looks like */ a block comment</span>
 <span class="lineNumber"> 11. </span>    <span class="comment">/* A multiline comment
 <span class="lineNumber"> 12. </span>     * also containing a // regular comment
 <span class="lineNumber"> 13. </span>     * And containing what looks like a "string"
@@ -37,6 +37,11 @@
 <span class="lineNumber"> 37. </span>            }
 <span class="lineNumber"> 38. </span><span class="preprocessor">#endif</span>
 <span class="lineNumber"> 39. </span>        }
-<span class="lineNumber"> 40. </span>    }
-<span class="lineNumber"> 41. </span>}
+<span class="lineNumber"> 40. </span>
+<span class="lineNumber"> 41. </span>        <span class="keyword">public</span> <span class="keyword">async</span> Task Foo()
+<span class="lineNumber"> 42. </span>        {
+<span class="lineNumber"> 43. </span>            <span class="keyword">await</span> Bar();
+<span class="lineNumber"> 44. </span>        }
+<span class="lineNumber"> 45. </span>    }
+<span class="lineNumber"> 46. </span>}
 </pre>

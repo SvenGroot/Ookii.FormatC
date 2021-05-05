@@ -7,7 +7,7 @@ using System.IO;
 namespace CSharpTest
 {
     // A comment containing what looks like a "string"
-    // A comment containg /* what looks like */ a block comment
+    // A comment containing /* what looks like */ a block comment
     /* A multiline comment
      * also containing a // regular comment
      * And containing what looks like a "string"
@@ -36,6 +36,11 @@ namespace CSharpTest
                 Console.WriteLine('\\');
             }
 #endif
+        }
+
+        public async Task Foo()
+        {
+            await Bar();
         }
     }
 }

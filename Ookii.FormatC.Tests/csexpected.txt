@@ -7,7 +7,7 @@
 <span class="keyword">namespace</span> CSharpTest
 {
     <span class="comment">// A comment containing what looks like a "string"</span>
-    <span class="comment">// A comment containg /* what looks like */ a block comment</span>
+    <span class="comment">// A comment containing /* what looks like */ a block comment</span>
     <span class="comment">/* A multiline comment
      * also containing a // regular comment
      * And containing what looks like a "string"
@@ -36,6 +36,11 @@
                 <span class="type">Console</span>.WriteLine(<span class="string">'\\'</span>);
             }
 <span class="preprocessor">#endif</span>
+        }
+
+        <span class="keyword">public</span> <span class="keyword">async</span> Task Foo()
+        {
+            <span class="keyword">await</span> Bar();
         }
     }
 }</pre>
