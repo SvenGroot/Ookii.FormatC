@@ -17,7 +17,7 @@
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>FormatC</HtmlHelpName>
     <Language>en-US</Language>
-    <FrameworkVersion>Cross-platform (.NET Core/.NET Standard)</FrameworkVersion>
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Ookii.FormatC\Ookii.FormatC.csproj" xmlns="" />
