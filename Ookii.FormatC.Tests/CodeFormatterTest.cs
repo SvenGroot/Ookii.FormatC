@@ -19,130 +19,118 @@ namespace Ookii.FormatC.Tests
         [TestMethod()]
         public void CSharpFormattingInfoTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            CSharpFormattingInfo info = new CSharpFormattingInfo();
-            info.Types = new string[] { "Program", "Console", "String" };
-            target.FormattingInfo = info;
-            string code = File.ReadAllText("csinput.txt");
-            string expected = File.ReadAllText("csexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new CSharpFormattingInfo()
+                {
+                    Types = new[] { "Program", "Console", "String" },
+                }
+            };
+
+            TestFormatting(target, "csinput.txt", "csexpected.txt");
         }
 
         [TestMethod()]
         public void VisualBasicFormattingInfoTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            VisualBasicFormattingInfo info = new VisualBasicFormattingInfo();
-            target.FormattingInfo = new VisualBasicFormattingInfo() { Types = new string[] { "Program", "Console", "String" } };
-            string code = File.ReadAllText("vbinput.txt");
-            string expected = File.ReadAllText("vbexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new VisualBasicFormattingInfo()
+                {
+                    Types = new[] { "Program", "Console", "String" },
+                }
+            };
+
+            TestFormatting(target, "vbinput.txt", "vbexpected.txt");
         }
 
         [TestMethod()]
         public void CPlusPlusFormattingInfoTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            target.FormattingInfo = new CPlusPlusFormattingInfo();
-            string code = File.ReadAllText("cppinput.txt");
-            string expected = File.ReadAllText("cppexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new CPlusPlusFormattingInfo(),
+            };
+
+            TestFormatting(target, "cppinput.txt", "cppexpected.txt");
         }
 
         [TestMethod()]
         public void XmlFormattingInfoTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            target.FormattingInfo = new XmlFormattingInfo();
-            string code = File.ReadAllText("xmlinput.txt");
-            string expected = File.ReadAllText("xmlexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new XmlFormattingInfo(),
+            };
+
+            TestFormatting(target, "xmlinput.txt", "xmlexpected.txt");
         }
 
         [TestMethod()]
         public void TSqlFormattingInfoTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            target.FormattingInfo = new TSqlFormattingInfo();
-            string code = File.ReadAllText("tsqlinput.txt");
-            string expected = File.ReadAllText("tsqlexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new TSqlFormattingInfo(),
+            };
+
+            TestFormatting(target, "tsqlinput.txt", "tsqlexpected.txt");
+
         }
 
         [TestMethod()]
         public void PowerShellFormattingInfoTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            target.FormattingInfo = new PowerShellFormattingInfo();
-            string code = File.ReadAllText("psinput.txt");
-            string expected = File.ReadAllText("psexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            Assert.IsFalse(target.UsedFallbackFormatting);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new PowerShellFormattingInfo(),
+            };
+
+            TestFormatting(target, "psinput.txt", "psexpected.txt");
         }
 
         [TestMethod()]
         public void PowerShellFormattingInfoFallbackTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            target.FormattingInfo = new PowerShellFormattingInfo() { ForceFallbackFormatting = true };
-            string code = File.ReadAllText("psinput.txt");
-            string expected = File.ReadAllText("psfallbackexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            Assert.IsTrue(target.UsedFallbackFormatting);
-            System.Console.WriteLine(actual);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new PowerShellFormattingInfo()
+                {
+                    ForceFallbackFormatting = true
+                }
+            };
+
+            TestFormatting(target, "psinput.txt", "psfallbackexpected.txt");
         }
 
         [TestMethod()]
         public void LineNumberTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            CSharpFormattingInfo info = new CSharpFormattingInfo();
-            info.Types = new string[] { "Program", "Console", "String" };
-            target.FormattingInfo = info;
-            target.LineNumberMode = LineNumberMode.Inline;
-            string code = File.ReadAllText("csinput.txt");
-            string expected = File.ReadAllText("linenumberexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                LineNumberMode = LineNumberMode.Inline,
+                FormattingInfo = new CSharpFormattingInfo()
+                {
+                    Types = new[] { "Program", "Console", "String" },
+                }
+            };
+
+            TestFormatting(target, "csinput.txt", "linenumberexpected.txt");
         }
 
         [TestMethod()]
         public void LineNumberTableTest()
         {
-            CodeFormatter target = new CodeFormatter();
-            CSharpFormattingInfo info = new CSharpFormattingInfo();
-            info.Types = new string[] { "Program", "Console", "String" };
-            target.FormattingInfo = info;
-            target.LineNumberMode = LineNumberMode.Table;
-            string code = File.ReadAllText("csinput.txt");
-            string expected = File.ReadAllText("linenumbertableexpected.txt");
-            string actual;
-            actual = target.FormatCode(code);
-            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
-            Assert.AreEqual(expected, actual);
+            var target = new CodeFormatter()
+            {
+                LineNumberMode = LineNumberMode.Table,
+                FormattingInfo = new CSharpFormattingInfo()
+                {
+                    Types = new[] { "Program", "Console", "String" },
+                }
+            };
+
+            TestFormatting(target, "csinput.txt", "linenumbertableexpected.txt");
         }
 
         [TestMethod()]
@@ -191,6 +179,18 @@ namespace Ookii.FormatC.Tests
             const string code = "int i = 5;";
             const string expected = "<span class=\"keyword\">int</span> i = 5;";
             var actual = target.FormatCode(code);
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static void TestFormatting(CodeFormatter target, string inputFile, string expectedFile)
+        {
+            var code = File.ReadAllText(inputFile);
+            var expected = File.ReadAllText(expectedFile);
+            var actual = target.FormatCode(code);
+
+            // Write actual output to a file so a diff tool can be used to compare it to expected.
+            File.WriteAllText("actual.txt", actual);
+
             Assert.AreEqual(expected, actual);
         }
     }
