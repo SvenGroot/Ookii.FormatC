@@ -6,6 +6,8 @@ using System.Text;
 using System.Reflection;
 using System.Collections;
 using System.Globalization;
+using System.IO;
+using System.Net;
 
 namespace Ookii.FormatC
 {
@@ -124,11 +126,10 @@ namespace Ookii.FormatC
         /// Formats the specified source code.
         /// </summary>
         /// <param name="code">The code to format.</param>
-        /// <returns>
-        /// An HTML fragment containing the formatted code, or <see langword="null"/> if custom formatting
-        /// failed and the <see cref="CodeFormatter"/> should fall back to regular formatting.
-        /// </returns>
-        public string FormatCode(string code)
+        /// <param name="writer">The <see cref="TextWriter"/> to write the formatted code too.</param>
+        /// <returns><see langword="true"/> if formatting succeeded, or <see langword="false"/> if custom formatting 
+        /// failed and the <see cref="CodeFormatter"/> should fall back to regular formatting.</returns>
+        public bool FormatCode(string code, TextWriter writer)
         {
             if( code == null )
                 throw new ArgumentNullException(nameof(code));
@@ -141,55 +142,56 @@ namespace Ookii.FormatC
                 if( errors.Count > 0 )
                 {
                     // Use fallback formatting if there were parsing errors.
-                    return null;
+                    return false;
                 }
 
                 int currentColumn = 1;
                 int currentLine = 1;
-                StringBuilder result = new StringBuilder(code.Length * 2);
                 foreach( dynamic token in tokens )
                 {
-                    string tokenValue = UpdateOutputPosition(code, ref currentColumn, ref currentLine, result, token);
+                    string tokenValue = UpdateOutputPosition(code, ref currentColumn, ref currentLine, writer, token);
 
                     switch( (PSTokenType)token.Type )
                     {
                     case PSTokenType.NewLine:
-                        result.Append(tokenValue);
+                        writer.Write(tokenValue);
                         currentLine++;
                         currentColumn = 1;
                         break;
                     default:
-                        result.AppendToken("ps" + (string)token.Type.ToString(), tokenValue);
+                        writer.WriteStartElement("ps" + (string)token.Type.ToString());
+                        WebUtility.HtmlEncode(tokenValue, writer);
+                        writer.WriteEndElement();
                         break;
                     }
                 }
-                return result.ToString();
+                return true;
             }
 
-            return null;
+            return false;
         }
 
-        private static string UpdateOutputPosition(string code, ref int currentColumn, ref int currentLine, StringBuilder result, dynamic token)
+        private static string UpdateOutputPosition(string code, ref int currentColumn, ref int currentLine, TextWriter result, dynamic token)
         {
             string tokenValue = code.Substring(token.Start, token.Length);
-            if( token.StartLine > currentLine )
+            if (token.StartLine > currentLine)
             {
-                result.Append('\n', token.StartLine - currentLine);
+                for (; currentLine < token.StartLine; ++currentLine)
+                {
+                    result.Write('\n');
+                }
+
                 currentColumn = 1;
             }
-            if( token.StartColumn != currentColumn )
+
+            for (; currentColumn < token.StartColumn; ++currentColumn)
             {
-                result.Append(' ', token.StartColumn - currentColumn);
+                result.Write(' ');
             }
+
             currentLine = token.EndLine;
             currentColumn = token.EndColumn;
             return tokenValue;
-        }
-
-        private static Type LoadPowerShellParserType()
-        {
-            Assembly assembly = Assembly.Load("System.Management.Automation");
-            return null;
         }
     }
 }

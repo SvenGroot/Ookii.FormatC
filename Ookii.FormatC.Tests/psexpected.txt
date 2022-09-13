@@ -6,11 +6,11 @@
 
 <span class="psComment">#asdfsadf</span>
 
-<span class="psVariable">$vpc</span> <span class="psOperator">=</span> <span class="psCommand">New-Object</span> <span class="psCommandParameter">-ComObject</span> <span class="psString">"VirtualPC.Application"</span>
+<span class="psVariable">$vpc</span> <span class="psOperator">=</span> <span class="psCommand">New-Object</span> <span class="psCommandParameter">-ComObject</span> <span class="psString">&quot;VirtualPC.Application&quot;</span>
 <span class="psVariable">$vm</span> <span class="psOperator">=</span> <span class="psVariable">$vpc</span><span class="psOperator">.</span><span class="psMember">FindVirtualMachine</span><span class="psGroupStart">(</span><span class="psVariable">$VirtualMachineName</span><span class="psGroupEnd">)</span>
 <span class="psKeyword">if</span><span class="psGroupStart">(</span> <span class="psVariable">$vm</span> <span class="psOperator">-eq</span> <span class="psVariable">$null</span> <span class="psGroupEnd">)</span>
 <span class="psGroupStart">{</span>
-    <span class="psCommand">Write-Error</span> <span class="psString">"Virtual machine not found."</span>
+    <span class="psCommand">Write-Error</span> <span class="psString">&quot;Virtual machine not found.&quot;</span>
 <span class="psGroupEnd">}</span>
 <span class="psKeyword">else</span>
 <span class="psGroupStart">{</span>

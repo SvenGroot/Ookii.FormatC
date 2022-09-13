@@ -14,8 +14,13 @@
 {
 	color: #808080;
 }
+.code .lineNumber
+{
+	user-select: none;
+}
 .code pre
 {
+	font-family: Consolas, monospace;
     margin: 0;
 }
 .code td

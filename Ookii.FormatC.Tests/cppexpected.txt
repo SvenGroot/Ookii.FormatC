@@ -1,7 +1,7 @@
 ﻿<pre class="code"><span class="preprocessor">#include</span> <span class="string">&lt;iostream&gt;</span>
 <span class="preprocessor">#using</span> <span class="string">&lt;System.dll&gt;</span>
 <span class="comment">// A comment at the beginning of a line</span>
-<span class="preprocessor">#include</span> <span class="string">"test.h"</span>
+<span class="preprocessor">#include</span> <span class="string">&quot;test.h&quot;</span>
 <span class="comment">/* A block comment at the beginning of a line */</span>
 <span class="keyword">using</span> <span class="keyword">namespace</span> std;
 
@@ -10,7 +10,7 @@
 {
     <span class="comment">/* Another block comment
      * containg a // regular comment
-     * and what looks like a "string"
+     * and what looks like a &quot;string&quot;
      */</span>
     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> value = gcd&lt;y, x % y&gt;::value;
 };
@@ -18,7 +18,7 @@
 <span class="keyword">template</span>&lt;<span class="keyword">int</span> x&gt;
 <span class="keyword">struct</span> gcd&lt;x, 0&gt;
 {
-    <span class="comment">// A comment containing /* a block comment */ and what looks like a "string"</span>
+    <span class="comment">// A comment containing /* a block comment */ and what looks like a &quot;string&quot;</span>
     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> value = x;
 };
 
@@ -27,10 +27,10 @@
     <span class="keyword">int</span> Int; <span class="comment">// case sensitive test</span>
     <span class="keyword">int</span> x = gcd&lt;511, 42&gt;::value;
     cout &lt;&lt; x &lt;&lt; endl;
-    cout &lt;&lt; <span class="string">"It's a \"string\\\" \\"</span> &lt;&lt; endl; <span class="comment">/* another block comment */</span>
-    cout &lt;&lt; <span class="string">"A string /* containg what */ looks like // a comment."</span> &lt;&lt; endl; <span class="comment">// and a real comment</span>
-    cout &lt;&lt; <span class="string">'c'</span> &lt;&lt; <span class="string">'\''</span> &lt;&lt; <span class="string">'\\'</span> &lt;&lt; endl;
-    cout &lt;&lt; <span class="string">"more"</span> &lt;&lt; <span class="string">"than\""</span> &lt;&lt; <span class="string">"one string on the same line"</span> &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">&quot;It&#39;s a \&quot;string\\\&quot; \\&quot;</span> &lt;&lt; endl; <span class="comment">/* another block comment */</span>
+    cout &lt;&lt; <span class="string">&quot;A string /* containg what */ looks like // a comment.&quot;</span> &lt;&lt; endl; <span class="comment">// and a real comment</span>
+    cout &lt;&lt; <span class="string">&#39;c&#39;</span> &lt;&lt; <span class="string">&#39;\&#39;&#39;</span> &lt;&lt; <span class="string">&#39;\\&#39;</span> &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">&quot;more&quot;</span> &lt;&lt; <span class="string">&quot;than\&quot;&quot;</span> &lt;&lt; <span class="string">&quot;one string on the same line&quot;</span> &lt;&lt; endl;
 
     <span class="keyword">return</span> 0;
 }</pre>

@@ -6,11 +6,11 @@
 
 <span class="psComment">#asdfsadf</span>
 
-<span class="psVariable">$vpc</span> = New-Object -ComObject <span class="psString">"VirtualPC.Application"</span>
+<span class="psVariable">$vpc</span> = New-Object -ComObject <span class="psString">&quot;VirtualPC.Application&quot;</span>
 <span class="psVariable">$vm</span> = <span class="psVariable">$vpc</span>.FindVirtualMachine(<span class="psVariable">$VirtualMachineName</span>)
 <span class="psKeyword">if</span>( <span class="psVariable">$vm</span> <span class="psOperator">-eq</span> <span class="psVariable">$null</span> )
 {
-    Write-Error <span class="psString">"Virtual machine not found."</span>
+    Write-Error <span class="psString">&quot;Virtual machine not found.&quot;</span>
 }
 <span class="psKeyword">else</span>
 {

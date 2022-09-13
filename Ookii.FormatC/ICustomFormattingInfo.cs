@@ -2,6 +2,7 @@
 // BSD license; see license.txt for details.
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -32,8 +33,9 @@ namespace Ookii.FormatC
         /// Formats the specified source code.
         /// </summary>
         /// <param name="code">The code to format.</param>
-        /// <returns>An HTML fragment containing the formatted code, or <see langword="null"/> if custom formatting 
+        /// <param name="writer">The <see cref="TextWriter"/> to write the formatted code too.</param>
+        /// <returns><see langword="true"/> if formatting succeeded, or <see langword="false"/> if custom formatting 
         /// failed and the <see cref="CodeFormatter"/> should fall back to regular formatting.</returns>
-        string FormatCode(string code);
+        bool FormatCode(string code, TextWriter writer);
     }
 }

@@ -1,17 +1,17 @@
-﻿<pre class="code"><span class="tagDelimiter">&lt;?</span><span class="tagName">xml</span> <span class="attributeName">version</span><span class="attributeDelimiter">=</span><span class="attributeValue">"1.0"</span>
-      <span class="attributeName">encoding</span><span class="attributeDelimiter">=</span><span class="attributeValue">"utf-8"</span> <span class="tagDelimiter">?&gt;</span>
-<span class="tagDelimiter">&lt;</span><span class="tagName">Foo</span> <span class="attributeName">xmlns:html</span><span class="attributeDelimiter">=</span><span class="attributeValue">"http://www.w3.org/1999/xhtml"</span><span class="tagDelimiter">&gt;</span>
-  <span class="tagDelimiter">&lt;</span><span class="tagName">html:a</span> <span class="attributeName">href</span><span class="attributeDelimiter">=</span><span class="attributeValue">'http://www.ookii.org'</span><span class="tagDelimiter">&gt;</span> not="an attribute"
-    <span class="comment">&lt;!-- A comment containing what looks like an &lt;element&gt; and a "string" --&gt;</span>
+﻿<pre class="code"><span class="tagDelimiter">&lt;?</span><span class="tagName">xml</span> <span class="attributeName">version</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;1.0&quot;</span>
+      <span class="attributeName">encoding</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;utf-8&quot;</span> <span class="tagDelimiter">?&gt;</span>
+<span class="tagDelimiter">&lt;</span><span class="tagName">Foo</span> <span class="attributeName">xmlns:html</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="tagDelimiter">&gt;</span>
+  <span class="tagDelimiter">&lt;</span><span class="tagName">html:a</span> <span class="attributeName">href</span><span class="attributeDelimiter">=</span><span class="attributeValue">&#39;http://www.ookii.org&#39;</span><span class="tagDelimiter">&gt;</span> not=&quot;an attribute&quot;
+    <span class="comment">&lt;!-- A comment containing what looks like an &lt;element&gt; and a &quot;string&quot; --&gt;</span>
   <span class="tagDelimiter">&lt;/</span><span class="tagName">html:a</span><span class="tagDelimiter">&gt;</span>
   <span class="entity">&amp;lt;</span>entities<span class="entity">&amp;gt;</span>
-  <span class="tagDelimiter">&lt;</span><span class="tagName">Foo-Bar</span> <span class="attributeName">test</span><span class="attributeDelimiter">=</span><span class="attributeValue">"single ' quotes are valid in double quoted attributes="</span> <span class="attributeName">test2</span><span class="attributeDelimiter">=</span><span class="attributeValue">'and double " inside single'</span>
-       <span class="attributeName">test3</span><span class="attributeDelimiter">=</span><span class="attributeValue">"and &amp;quot; valid anywhere"</span>
+  <span class="tagDelimiter">&lt;</span><span class="tagName">Foo-Bar</span> <span class="attributeName">test</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;single &#39; quotes are valid in double quoted attributes=&quot;</span> <span class="attributeName">test2</span><span class="attributeDelimiter">=</span><span class="attributeValue">&#39;and double &quot; inside single&#39;</span>
+       <span class="attributeName">test3</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;and &amp;quot; valid anywhere&quot;</span>
        <span class="tagDelimiter">&gt;</span>
     <span class="tagDelimiter">&lt;![CDATA[</span><span class="cdata"> A CDATA section 
-      Containing what looks like an &lt;element&gt; and a "string"
+      Containing what looks like an &lt;element&gt; and a &quot;string&quot;
     </span><span class="tagDelimiter">]]&gt;</span>
   <span class="tagDelimiter">&lt;/</span><span class="tagName">Foo-Bar</span><span class="tagDelimiter">&gt;</span>
-  <span class="tagDelimiter">&lt;</span><span class="tagName">element.with.a.period.in.it</span> <span class="attributeName">attribute.with.period</span><span class="attributeDelimiter">=</span><span class="attributeValue">"test"</span><span class="tagDelimiter">&gt;</span>
+  <span class="tagDelimiter">&lt;</span><span class="tagName">element.with.a.period.in.it</span> <span class="attributeName">attribute.with.period</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;test&quot;</span><span class="tagDelimiter">&gt;</span>
   <span class="tagDelimiter">&lt;/</span><span class="tagName">element.with.a.period.in.it</span><span class="tagDelimiter">&gt;</span>
 <span class="tagDelimiter">&lt;/</span><span class="tagName">Foo</span><span class="tagDelimiter">&gt;</span></pre>

@@ -1,29 +1,29 @@
 ﻿<pre class="code"><span class="keyword">Imports</span> System
-<span class="comment">' A comment at the beginning of a line</span>
+<span class="comment">&#39; A comment at the beginning of a line</span>
 <span class="keyword">Imports</span> System.IO
 <span class="comment">REM A REM comment at the beginning of a line</span>
-<span class="keyword">Imports</span> <span class="xmlDelimiter">&lt;</span><span class="xmlImportAttributeName">xmlns:a</span><span class="xmlImportAttributeDelimiter">=</span><span class="xmlImportAttributeQuotes">"</span><span class="xmlImportAttributeValue">http://www.ookii.org</span><span class="xmlImportAttributeQuotes">"</span><span class="xmlDelimiter">&gt;</span>
+<span class="keyword">Imports</span> <span class="xmlDelimiter">&lt;</span><span class="xmlImportAttributeName">xmlns:a</span><span class="xmlImportAttributeDelimiter">=</span><span class="xmlImportAttributeQuotes">&quot;</span><span class="xmlImportAttributeValue">http://www.ookii.org</span><span class="xmlImportAttributeQuotes">&quot;</span><span class="xmlDelimiter">&gt;</span>
 
 <span class="keyword">Namespace</span> VisualBasicTest
-    <span class="comment">' A comment, containing what looks like a "string"</span>
-    <span class="comment">REM A REM comment containg an ' ordinary comment</span>
+    <span class="comment">&#39; A comment, containing what looks like a &quot;string&quot;</span>
+    <span class="comment">REM A REM comment containg an &#39; ordinary comment</span>
     <span class="keyword">Public</span> <span class="keyword">Class</span> <span class="type">Program</span>
         <span class="keyword">Public</span> <span class="keyword">Sub</span> Main()
-            <span class="keyword">Dim</span> [Integer] <span class="keyword">As</span> <span class="keyword">Integer</span> <span class="comment">' Escape test</span>
-            <span class="keyword">Dim</span> From <span class="keyword">As</span> <span class="keyword">String</span> <span class="comment">' Contextual escape test</span>
+            <span class="keyword">Dim</span> [Integer] <span class="keyword">As</span> <span class="keyword">Integer</span> <span class="comment">&#39; Escape test</span>
+            <span class="keyword">Dim</span> From <span class="keyword">As</span> <span class="keyword">String</span> <span class="comment">&#39; Contextual escape test</span>
 
-            <span class="type">Console</span>.WriteLine(<span class="string">"A string"</span><span class="string">"hello"</span><span class="string">""</span>)
-            <span class="keyword">for</span> x = 0 <span class="keyword">to</span> 10 <span class="comment">' Lowercase for case insensitive test.</span>
-                <span class="type">Console</span>.WriteLine(<span class="string">"a"c</span>)
+            <span class="type">Console</span>.WriteLine(<span class="string">&quot;A string&quot;</span><span class="string">&quot;hello&quot;</span><span class="string">&quot;&quot;</span>)
+            <span class="keyword">for</span> x = 0 <span class="keyword">to</span> 10 <span class="comment">&#39; Lowercase for case insensitive test.</span>
+                <span class="type">Console</span>.WriteLine(<span class="string">&quot;a&quot;c</span>)
             <span class="keyword">Next</span>
-            <span class="keyword">Dim</span> foo = <span class="xmlLiteral"><span class="tagDelimiter">&lt;?</span><span class="tagName">xml</span> <span class="attributeName">version</span><span class="attributeDelimiter">=</span><span class="attributeValue">"1.0"</span><span class="tagDelimiter">?&gt;</span>
-                      <span class="tagDelimiter">&lt;</span><span class="tagName">Foo</span> <span class="attributeName">test</span><span class="attributeDelimiter">=</span><span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">Date</span>.Now <span class="embeddedExpressionDelimiter">%&gt;</span> <span class="attributeName">a:bar</span><span class="attributeDelimiter">=</span><span class="attributeValue">"baz"</span><span class="tagDelimiter">&gt;</span>
+            <span class="keyword">Dim</span> foo = <span class="xmlLiteral"><span class="tagDelimiter">&lt;?</span><span class="tagName">xml</span> <span class="attributeName">version</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;1.0&quot;</span><span class="tagDelimiter">?&gt;</span>
+                      <span class="tagDelimiter">&lt;</span><span class="tagName">Foo</span> <span class="attributeName">test</span><span class="attributeDelimiter">=</span><span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">Date</span>.Now <span class="embeddedExpressionDelimiter">%&gt;</span> <span class="attributeName">a:bar</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;baz&quot;</span><span class="tagDelimiter">&gt;</span>
                           <span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">If</span>(a, <span class="xmlLiteral"><span class="tagDelimiter">&lt;</span><span class="tagName">a</span> <span class="tagDelimiter">/&gt;</span></span>, <span class="xmlLiteral"><span class="tagDelimiter">&lt;</span><span class="tagName">b</span> <span class="attributeName">c</span><span class="attributeDelimiter">=</span><span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">Date</span>.UtcNow <span class="embeddedExpressionDelimiter">%&gt;</span><span class="tagDelimiter">/&gt;</span></span>) <span class="embeddedExpressionDelimiter">%&gt;</span>
                       <span class="tagDelimiter">&lt;/</span><span class="tagName">Foo</span><span class="tagDelimiter">&gt;</span></span>
             <span class="keyword">Dim</span> bar = <span class="keyword">From</span> f <span class="keyword">In</span> foo _
-                      <span class="keyword">Where</span> f.<span class="xmlDelimiter">&lt;</span>Foo<span class="xmlDelimiter">&gt;</span>.<span class="xmlDelimiter">@</span>a:bar = <span class="string">"baz"</span>
+                      <span class="keyword">Where</span> f.<span class="xmlDelimiter">&lt;</span>Foo<span class="xmlDelimiter">&gt;</span>.<span class="xmlDelimiter">@</span>a:bar = <span class="string">&quot;baz&quot;</span>
 <span class="preprocessor">#If</span> TEST <span class="keyword">Then</span>
-            <span class="type">Console</span>.WriteLine(<span class="string">"{0} {1} {2}"</span>, <span class="string">"more than one"</span>, <span class="string">"string on "</span><span class="string">"the same"</span>, <span class="string">"line"</span>);
+            <span class="type">Console</span>.WriteLine(<span class="string">&quot;{0} {1} {2}&quot;</span>, <span class="string">&quot;more than one&quot;</span>, <span class="string">&quot;string on &quot;</span><span class="string">&quot;the same&quot;</span>, <span class="string">&quot;line&quot;</span>);
 <span class="preprocessor">#End</span> <span class="keyword">If</span>
         <span class="keyword">End</span> <span class="keyword">Sub</span>
     <span class="keyword">End</span> <span class="keyword">Class</span>

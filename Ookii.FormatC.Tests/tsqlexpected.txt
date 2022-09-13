@@ -1,18 +1,18 @@
-﻿<pre class="code"><span class="comment">--a comment containg a "string"</span>
+﻿<pre class="code"><span class="comment">--a comment containg a &quot;string&quot;</span>
 <span class="comment">/* and another comment
  * containing what looks like -- a regular comment
- * and a "string"
+ * and a &quot;string&quot;
  */</span>
 
 <span class="keyword">SELECT</span> <span class="sqlOperator">*</span> <span class="keyword">FROM</span> Foo;
 
-<span class="keyword">SELECT</span> <span class="escapedIdentifier">[from]</span> <span class="keyword">FROM</span> <span class="escapedIdentifier">"Select"</span><span class="sqlOperator">;</span>
+<span class="keyword">SELECT</span> <span class="escapedIdentifier">[from]</span> <span class="keyword">FROM</span> <span class="escapedIdentifier">&quot;Select&quot;</span><span class="sqlOperator">;</span>
 
 <span class="keyword">INSERT</span> <span class="keyword">INTO</span> Bar(test, test1, test2)
-<span class="keyword">VALUES</span> <span class="sqlOperator">(</span><span class="sqlString">'a string'</span><span class="sqlOperator">,</span> <span class="sqlString">'another'</span><span class="sqlString">' string\'</span><span class="sqlOperator">,</span> <span class="sqlString">N'A widechar'</span><span class="sqlString">' string'</span><span class="sqlOperator">)</span><span class="sqlOperator">;</span>
+<span class="keyword">VALUES</span> <span class="sqlOperator">(</span><span class="sqlString">&#39;a string&#39;</span><span class="sqlOperator">,</span> <span class="sqlString">&#39;another&#39;</span><span class="sqlString">&#39; string\&#39;</span><span class="sqlOperator">,</span> <span class="sqlString">N&#39;A widechar&#39;</span><span class="sqlString">&#39; string&#39;</span><span class="sqlOperator">)</span><span class="sqlOperator">;</span>
 
 <span class="keyword">select</span> test <span class="keyword">from</span> bar <span class="comment">-- case insensitive test</span>
 
-<span class="keyword">SELECT</span> <span class="sqlString">'a string /* containing */'</span> <span class="sqlOperator">+</span> <span class="sqlString">' what -- looks like a comment'</span> <span class="comment">/* and a real comment */</span>
+<span class="keyword">SELECT</span> <span class="sqlString">&#39;a string /* containing */&#39;</span> <span class="sqlOperator">+</span> <span class="sqlString">&#39; what -- looks like a comment&#39;</span> <span class="comment">/* and a real comment */</span>
 
 <span class="keyword">SELECT</span> <span class="sqlSystemFunction">@@VERSION</span>;</pre>

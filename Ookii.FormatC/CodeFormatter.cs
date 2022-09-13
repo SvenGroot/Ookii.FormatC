@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace Ookii.FormatC
 {
@@ -136,118 +137,90 @@ namespace Ookii.FormatC
         }
 
         /// <summary>
-        /// Gets a value indicating whether fallback formatting was used by the last call to <see cref="FormatCode"/>.
+        /// Gets a value indicating whether fallback formatting was used by the last call to <see cref="FormatCode(string)"/>.
         /// </summary>
         /// <value>
-        /// 	<see langword="true"/> if, on the last call to <see cref="FormatCode"/>, the <see cref="FormattingInfo"/> 
+        /// 	<see langword="true"/> if, on the last call to <see cref="FormatCode(string)"/>, the <see cref="FormattingInfo"/> 
         /// 	supported <see cref="ICustomFormattingInfo"/> and custom formatting failed; otherwise, <see langword="false"/>.
         /// </value>
         public bool UsedFallbackFormatting { get; private set; }
 	
         /// <summary>
-        /// Formats the specifies source code as HTML.
+        /// Formats the specified source code as HTML.
         /// </summary>
         /// <param name="code">The code to format.</param>
         /// <returns>The formatted HTML.</returns>
         /// <example>For an example see <see cref="CodeFormatter"/>.</example>
-        /// <exception cref="InvalidOperationException"><see cref="FormattingInfo"/> is <see langword="null" />.</exception>
         public string FormatCode(string code)
         {
-            if( code == null )
-                throw new ArgumentNullException(nameof(code));
-            if( _formattingInfo == null )
-                throw new InvalidOperationException(Properties.Resources.Error_NoFormattingInfo);
-
-            StringBuilder result = new StringBuilder(code.Length * 2);
-
-            // Normalize newlines
-            code = code.Replace("\r\n", "\n").Replace("\r", "\n");
-            // Convert tabs
-            code = code.Replace("\t", new String(' ', _tabSpaces));
-
-            UsedFallbackFormatting = FormatCodeCore(FormattingInfo, code, result, true, 0, code.Length, false);
-
-            result.Replace("\n", "\r\n");
-
-            switch( LineNumberMode )
-            {
-            case FormatC.LineNumberMode.Inline:
-                AddInlineLineNumbers(result);
-                break;
-            case FormatC.LineNumberMode.Table:
-                AddTableLineNumbers(result);
-                return result.ToString(); // The <pre> is already added by this method.
-            }
-
-            if (IncludePreElement)
-            {
-                if (CssClass != null)
-                {
-                    return $"<pre class=\"{CssClass}\">{result}</pre>";
-                }
-
-                return $"<pre>{result}</pre>";
-            }
-
+            var result = new StringWriter(new StringBuilder(code.Length * 2));
+            FormatCode(code, result);
+            //result.GetStringBuilder().Replace("\n", "\r\n");
             return result.ToString();
         }
 
-        private void AddInlineLineNumbers(StringBuilder result)
+        /// <summary>
+        /// Formats the specified source code as HTML, writing the result to the specified <see cref="TextWriter"/>.
+        /// </summary>
+        /// <param name="code">The code to format.</param>
+        /// <param name="writer">The <see cref="TextWriter"/> to write the formatted code to.</param>
+        /// <example>For an example see <see cref="CodeFormatter"/>.</example>
+        public void FormatCode(string code, TextWriter writer)
         {
-            string temp = result.ToString();
-            result.Length = 0;
-            using( StringReader reader = new StringReader(temp) )
-            {
-                int lineNumber = 0;
-                string line;
-                while( (line = reader.ReadLine()) != null )
-                {
-                    ++lineNumber;
-                    result.Append("<span class=\"lineNumber\">");
-                    result.AppendFormat(System.Globalization.CultureInfo.CurrentCulture, _lineNumberFormat, lineNumber);
-                    result.Append("</span>");
+            if( code == null )
+                throw new ArgumentNullException(nameof(code));
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
 
-                    result.AppendLine(line);
+            // Normalize newlines (needed for regular expressions)
+            code = code.Replace("\r\n", "\n").Replace("\r", "\n");
+            // Convert tabs
+            code = code.Replace("\t", new string(' ', _tabSpaces));
+
+            if (LineNumberMode == LineNumberMode.Table)
+                FormatCodeLineNumberTable(code, writer);
+            else if (IncludePreElement)
+                writer.WriteStartElement("pre", CssClass);
+
+            using (var codeWriter = new LineNumberTextWriter(writer))
+            {
+                if (LineNumberMode == LineNumberMode.Inline)
+                {
+                    codeWriter.LineNumberFormat = LineNumberFormat;
+                    codeWriter.LineNumberClassName = "lineNumber";
                 }
+
+                UsedFallbackFormatting = FormatCodeCore(FormattingInfo, code, codeWriter, true, 0, code.Length, false);
             }
+
+            if (LineNumberMode == LineNumberMode.Table)
+                writer.Write("</pre></td></tr></table></div>");
+            else if (IncludePreElement)
+                writer.WriteEndElement("pre");
         }
 
-        private void AddTableLineNumbers(StringBuilder result)
+        private void FormatCodeLineNumberTable(string code, TextWriter writer)
         {
-            string temp = result.ToString();
-            result.Length = 0;
+            writer.WriteStartElement("div", CssClass);
+            writer.Write("<table><tr><td class=\"lineNumbers\">");
             int lineNumber = 0;
 
-            result.Append("<div");
-            if (CssClass != null)
+            // We assume the formatted result will have the same number of lines.
+            using (var reader = new StringReader(code))
             {
-                result.AppendFormat(" class=\"{0}\"", CssClass);
-            }
-
-            result.Append("><table><tr><td class=\"lineNumbers\">");
-
-            using( StringReader reader = new StringReader(temp) )
-            {
-                while( reader.ReadLine() != null )
+                while (reader.ReadLine() != null)
                 {
-                    if( lineNumber > 0 )
-                        result.Append("<br />");
+                    if (lineNumber > 0)
+                        writer.Write("<br />");
                     ++lineNumber;
-                    result.AppendFormat(System.Globalization.CultureInfo.CurrentCulture, _lineNumberFormat, lineNumber);
+                    writer.Write(_lineNumberFormat, lineNumber);
                 }
             }
 
-            result.Append("</td><td><pre>");
-            result.Append(temp);
-            result.Append("</pre></td></tr></table></div>");
+            writer.Write("</td><td><pre>");
         }
 
-        internal static string HtmlEncode(string input)
-        {
-            return input.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
-        }
-
-        private static bool FormatCodeCore(IFormattingInfo info, string code, StringBuilder result, bool splitLanguageRegions, int start, int length, bool needsFullContext)
+        private static bool FormatCodeCore(IFormattingInfo info, string code, TextWriter result, bool splitLanguageRegions, int start, int length, bool needsFullContext)
         {
             bool usedFallbackFormatting = false;
             if( splitLanguageRegions )
@@ -260,16 +233,10 @@ namespace Ookii.FormatC
 
             if (info is ICustomFormattingInfo customInfo)
             {
-                string formattedCode = customInfo.FormatCode(code.Substring(start, length));
-                if (formattedCode != null)
-                {
-                    result.Append(formattedCode);
+                if (customInfo.FormatCode(code.Substring(start, length), result))
                     return false;
-                }
                 else
-                {
                     usedFallbackFormatting = true;
-                }
             }
 
             Regex regex = CreateRegex(info);
@@ -286,8 +253,8 @@ namespace Ookii.FormatC
                     break;
                 if( match.Index >= start )
                 {
-                    if( previousMatchEnd < match.Index )
-                        result.Append(HtmlEncode(code.Substring(previousMatchEnd, match.Index - previousMatchEnd)));
+                    if (previousMatchEnd < match.Index)
+                        WebUtility.HtmlEncode(code.Substring(previousMatchEnd, match.Index - previousMatchEnd), result);
 
                     foreach( CodeElement p in info.Patterns )
                     {
@@ -299,12 +266,12 @@ namespace Ookii.FormatC
             }
 
             if( previousMatchEnd < start + length )
-                result.Append(HtmlEncode(code.Substring(previousMatchEnd, start + length - previousMatchEnd)));
+                WebUtility.HtmlEncode(code.Substring(previousMatchEnd, start + length - previousMatchEnd), result);
 
             return usedFallbackFormatting;
         }
 
-        private static bool FormatCodeMultilanguage(IFormattingInfo info, string code, StringBuilder result, int start, int length, IMultilanguageFormattingInfo multilanguageInfo)
+        private static bool FormatCodeMultilanguage(IFormattingInfo info, string code, TextWriter result, int start, int length, IMultilanguageFormattingInfo multilanguageInfo)
         {
             bool usedFallbackFormatting = false;
             string fullContextCode = null;
@@ -313,9 +280,7 @@ namespace Ookii.FormatC
             {
                 if( region.CssClass != null )
                 {
-                    result.Append("<span class=\"");
-                    result.Append(region.CssClass);
-                    result.Append("\">");
+                    result.WriteStartElement(region.CssClass);
                 }
                 IFormattingInfo regionInfo = region.FormattingInfo ?? info;
 
@@ -330,40 +295,38 @@ namespace Ookii.FormatC
 
                 if( region.CssClass != null )
                 {
-                    result.Append("</span>");
+                    result.WriteEndElement();
                 }
             }
 
             return usedFallbackFormatting;
         }
 
-        private static void ProcessGroup(StringBuilder result, Match match, CodeElement groupElement)
+        private static void ProcessGroup(TextWriter result, Match match, CodeElement groupElement)
         {
             Group group = match.Groups[groupElement.Name];
             if( group.Success && group.Length != 0 )
             {
                 if( groupElement.ElementNameIsCssClass )
                 {
-                    result.Append("<span class=\"");
-                    result.Append(groupElement.Name);
-                    result.Append("\">");
+                    result.WriteStartElement(groupElement.Name);
                 }
 
                 string value = group.Value;
                 if( groupElement.MatchValueProcessor != null )
                     value = groupElement.MatchValueProcessor(value);
-                result.Append(HtmlEncode(value));
 
+                WebUtility.HtmlEncode(value, result);
                 if( groupElement.ElementNameIsCssClass )
                 {
-                    result.Append("</span>");
+                    result.Write("</span>");
                 }
             }
         }
 
         private static string StripAndAdjustRegionsForContext(string code, LanguageRegion[] regions, int index, int length)
         {
-            StringBuilder result = new StringBuilder(length);
+            var result = new StringBuilder(length);
             int offset = index;
             foreach( LanguageRegion region in regions )
             {
@@ -383,7 +346,7 @@ namespace Ookii.FormatC
 
         private static Regex CreateRegex(IFormattingInfo info)
         {
-            StringBuilder pattern = new StringBuilder();
+            var pattern = new StringBuilder();
 
             bool first = true;
             foreach( CodeElement p in info.Patterns )

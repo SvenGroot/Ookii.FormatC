@@ -27,6 +27,7 @@ namespace Ookii.FormatC.Tests
             string expected = File.ReadAllText("csexpected.txt");
             string actual;
             actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -40,6 +41,7 @@ namespace Ookii.FormatC.Tests
             string expected = File.ReadAllText("vbexpected.txt");
             string actual;
             actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -52,6 +54,7 @@ namespace Ookii.FormatC.Tests
             string expected = File.ReadAllText("cppexpected.txt");
             string actual;
             actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -64,6 +67,7 @@ namespace Ookii.FormatC.Tests
             string expected = File.ReadAllText("xmlexpected.txt");
             string actual;
             actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -76,6 +80,7 @@ namespace Ookii.FormatC.Tests
             string expected = File.ReadAllText("tsqlexpected.txt");
             string actual;
             actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -89,6 +94,7 @@ namespace Ookii.FormatC.Tests
             string actual;
             actual = target.FormatCode(code);
             Assert.IsFalse(target.UsedFallbackFormatting);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -103,6 +109,7 @@ namespace Ookii.FormatC.Tests
             actual = target.FormatCode(code);
             Assert.IsTrue(target.UsedFallbackFormatting);
             System.Console.WriteLine(actual);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 
@@ -118,6 +125,23 @@ namespace Ookii.FormatC.Tests
             string expected = File.ReadAllText("linenumberexpected.txt");
             string actual;
             actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void LineNumberTableTest()
+        {
+            CodeFormatter target = new CodeFormatter();
+            CSharpFormattingInfo info = new CSharpFormattingInfo();
+            info.Types = new string[] { "Program", "Console", "String" };
+            target.FormattingInfo = info;
+            target.LineNumberMode = LineNumberMode.Table;
+            string code = File.ReadAllText("csinput.txt");
+            string expected = File.ReadAllText("linenumbertableexpected.txt");
+            string actual;
+            actual = target.FormatCode(code);
+            File.WriteAllText("actual.txt", actual); // So you can use a diff tool.
             Assert.AreEqual(expected, actual);
         }
 

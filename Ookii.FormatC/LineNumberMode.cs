@@ -20,9 +20,16 @@ namespace Ookii.FormatC
         Inline,
         /// <summary>
         /// The result is encapsulated in a table with the line numbers in a seperate cell.
-        /// This has the advantage of allowing the entire code to be selectable without selecting the
-        /// line numbers.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        ///   This used to have the advantage of allowing the entire code to be selectable without selecting the
+        ///   line numbers. Nowadays, the same is accomplished for <see cref="Inline"/> using the CSS <c>user-select: none</c>.
+        /// </para>
+        /// <para>
+        ///   For this reason, using <see cref="Inline"/> is preferred.
+        /// </para>
+        /// </remarks>
         Table
     }
 }
