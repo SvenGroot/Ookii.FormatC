@@ -53,7 +53,8 @@ namespace Ookii.FormatC
             Position = 19,
         }
 
-        private const string PSParserTypeName = "System.Management.Automation.PSParser, System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35";
+        private const string PSParserTypeName = "System.Management.Automation.PSParser";
+        private const string PSParserAssemblyQualifiedTypeName = PSParserTypeName + ", System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35";
 
         private static readonly CodeElement[] _patterns = new CodeElement[] {
                     new CodeElement("psComment", @"#.*?$"),
@@ -79,9 +80,9 @@ namespace Ookii.FormatC
         {
             if (systemManagementAutomation == null)
             {
-                // Attempt to load the PowerShell type. That way, if the project that's using Ookii.FomatC
+                // Attempt to load the PowerShell type. That way, if the project that's using Ookii.FormatC
                 // references System.Management.Automation, it'll just work without any code changes.
-                _parserType = Type.GetType(PSParserTypeName, false);
+                _parserType = Type.GetType(PSParserAssemblyQualifiedTypeName, false);
             }
             else
             {

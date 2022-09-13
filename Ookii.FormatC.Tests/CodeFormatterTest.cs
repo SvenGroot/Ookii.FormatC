@@ -2,6 +2,8 @@
 // BSD license; see license.txt for details.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Management.Automation;
+using System.Reflection;
 
 namespace Ookii.FormatC.Tests
 {
@@ -88,6 +90,21 @@ namespace Ookii.FormatC.Tests
         }
 
         [TestMethod()]
+        public void PowerShellFormattingInfoParserParamTest()
+        {
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new PowerShellFormattingInfo(typeof(PSParser).Assembly),
+            };
+
+            TestFormatting(target, "psinput.txt", "psexpected.txt");
+
+            // Try passing an assembly that doesn't have the required type.
+            target.FormattingInfo = new PowerShellFormattingInfo(Assembly.GetExecutingAssembly());
+            TestFormatting(target, "psinput.txt", "psfallbackexpected.txt", true);
+        }
+
+        [TestMethod()]
         public void PowerShellFormattingInfoFallbackTest()
         {
             var target = new CodeFormatter()
@@ -98,7 +115,24 @@ namespace Ookii.FormatC.Tests
                 }
             };
 
-            TestFormatting(target, "psinput.txt", "psfallbackexpected.txt");
+            TestFormatting(target, "psinput.txt", "psfallbackexpected.txt", true);
+        }
+
+        [TestMethod]
+        public void PowerShellAutomaticFallbackTest()
+        {
+            var target = new CodeFormatter()
+            {
+                FormattingInfo = new PowerShellFormattingInfo(),
+            };
+
+            Assert.IsFalse(target.UsedFallbackFormatting);
+
+            // Unterminated array prevents PSParser from tokenizing this.
+            var actual = target.FormatCode("Set-Content foo.txt @(\"foo\",\"bar\"");
+            Assert.IsTrue(target.UsedFallbackFormatting);
+            const string expected = "<pre class=\"code\">Set-Content foo.txt @(<span class=\"psString\">&quot;foo&quot;</span>,<span class=\"psString\">&quot;bar&quot;</span></pre>";
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -180,11 +214,12 @@ namespace Ookii.FormatC.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        private static void TestFormatting(CodeFormatter target, string inputFile, string expectedFile)
+        private static void TestFormatting(CodeFormatter target, string inputFile, string expectedFile, bool fallback = false)
         {
             var code = File.ReadAllText(inputFile);
             var expected = File.ReadAllText(expectedFile);
             var actual = target.FormatCode(code);
+            Assert.AreEqual(fallback, target.UsedFallbackFormatting);
 
             // Write actual output to a file so a diff tool can be used to compare it to expected.
             File.WriteAllText("actual.txt", actual);
