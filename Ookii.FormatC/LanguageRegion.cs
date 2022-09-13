@@ -34,13 +34,13 @@ namespace Ookii.FormatC
         /// Gets or sets the formatting info used to highlight the language region.
         /// </summary>
         /// <value>The formatting info, or <see langword="null"/> to use the formatter that split the code into regions.</value>
-        public IFormattingInfo FormattingInfo { get; set; }
+        public IFormattingInfo? FormattingInfo { get; set; }
 
         /// <summary>
         /// Gets or sets the CSS class for the entire language region.
         /// </summary>
         /// <value>The CSS class for the language region, or <see langword="null"/> if the region doesn't need to be surrounded by an element with a CSS class.</value>
-        public string CssClass { get; set; }
+        public string? CssClass { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the formatter needs the full source for context, not just the region itself.

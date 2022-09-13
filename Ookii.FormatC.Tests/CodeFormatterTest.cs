@@ -1,9 +1,7 @@
 ﻿// Copyright © Sven Groot (Ookii.org)
 // BSD license; see license.txt for details.
-using Ookii.FormatC;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.Reflection;
 
 namespace Ookii.FormatC.Tests
 {

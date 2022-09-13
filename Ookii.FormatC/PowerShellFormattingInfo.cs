@@ -67,7 +67,7 @@ namespace Ookii.FormatC
                     new CodeElement("psVariable", @"\$[a-zA-Z0-9]+")
         };
 
-        private readonly Type _parserType;
+        private readonly Type? _parserType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerShellFormattingInfo"/> class.
@@ -75,7 +75,7 @@ namespace Ookii.FormatC
         /// <param name="systemManagementAutomation">The System.Management.Automation assembly used to load the PSParser from.
         /// If <see langword="null" />, <see cref="PowerShellFormattingInfo"/> attempts to load the type directly
         /// which requires the consuming project to reference System.Management.Automation directly.</param>
-        public PowerShellFormattingInfo(Assembly systemManagementAutomation = null)
+        public PowerShellFormattingInfo(Assembly? systemManagementAutomation = null)
         {
             if (systemManagementAutomation == null)
             {
@@ -136,10 +136,10 @@ namespace Ookii.FormatC
 
             if( _parserType != null && !ForceFallbackFormatting )
             {
-                object[] args = new object[] { code, null };
+                var args = new object?[] { code, null };
                 IList tokens = (IList)_parserType.InvokeMember("Tokenize", BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static, null, null, args, CultureInfo.CurrentCulture);
-                IList errors = (IList)args[1];
-                if( errors.Count > 0 )
+                var errors = (IList?)args[1];
+                if( errors?.Count > 0 )
                 {
                     // Use fallback formatting if there were parsing errors.
                     return false;

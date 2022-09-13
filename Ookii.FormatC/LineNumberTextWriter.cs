@@ -15,8 +15,8 @@ namespace Ookii.FormatC
         // We want to use the same code for either Write(char[]) and Write(string), without allocating a new char[] or string for either, so we provide this helper to access one or the other
         private struct StringBuffer
         {
-            private readonly string _stringValue;
-            private readonly char[] _charArrayValue;
+            private readonly string? _stringValue;
+            private readonly char[]? _charArrayValue;
 
             public StringBuffer(string stringValue)
             {
@@ -32,10 +32,10 @@ namespace Ookii.FormatC
 
             public char this[int index]
             {
-                get { return _stringValue == null ? _charArrayValue[index] : _stringValue[index]; }
+                get { return _stringValue == null ? _charArrayValue![index] : _stringValue[index]; }
             }
 
-            public char[] Characters => _charArrayValue ?? _stringValue.ToCharArray();
+            public char[] Characters => _charArrayValue ?? _stringValue!.ToCharArray();
 
             public int IndexOfLineBreak(int index, int end)
             {
@@ -43,7 +43,7 @@ namespace Ookii.FormatC
                 {
                     for (int x = index; x < end; ++x)
                     {
-                        if (_charArrayValue[x] == '\r' || _charArrayValue[x] == '\n')
+                        if (_charArrayValue![x] == '\r' || _charArrayValue[x] == '\n')
                             return x;
                     }
                     return -1;
@@ -69,14 +69,6 @@ namespace Ookii.FormatC
                 else
                     writer.Write(_stringValue.Substring(index, count));
             }
-
-            public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count)
-            {
-                if (_stringValue == null)
-                    Array.Copy(_charArrayValue, sourceIndex, destination, destinationIndex, count);
-                else
-                    _stringValue.CopyTo(sourceIndex, destination, destinationIndex, count);
-            }
         }
 
         private enum State
@@ -100,11 +92,11 @@ namespace Ookii.FormatC
 
         public override Encoding Encoding => _baseWriter.Encoding;
 
-        public string LineNumberFormat { get; set; }
+        public string? LineNumberFormat { get; set; }
 
-        public string LineNumberClassName { get; set; }
+        public string? LineNumberClassName { get; set; }
 
-        public override void Write(string value)
+        public override void Write(string? value)
         {
             if (value != null)
             {

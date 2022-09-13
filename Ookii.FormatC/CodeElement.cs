@@ -97,7 +97,7 @@ namespace Ookii.FormatC
         ///   Use this property if you want to change the text value that is added to the formatted result.
         /// </para>
         /// </remarks>
-        public Func<string, string> MatchValueProcessor { get; set; }
+        public Func<string, string>? MatchValueProcessor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="Name"/> of this <see cref="CodeElement"/> is a CSS class to be used in the output.

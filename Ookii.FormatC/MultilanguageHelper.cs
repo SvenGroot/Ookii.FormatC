@@ -9,7 +9,7 @@ namespace Ookii.FormatC
 {
     static class MultilanguageHelper
     {
-        public static IEnumerable<LanguageRegion> SplitRegions(string code, int index, int length, string startTag, string endTag, bool excludeTag, string cssClass, Type formattingInfoType, IEnumerable<string> types, bool needsFullContext)
+        public static IEnumerable<LanguageRegion> SplitRegions(string code, int index, int length, string startTag, string endTag, bool excludeTag, string? cssClass, Type formattingInfoType, IEnumerable<string>? types, bool needsFullContext)
         {
             if( code == null )
                 throw new ArgumentNullException(nameof(code));
@@ -27,11 +27,11 @@ namespace Ookii.FormatC
             return SplitRegionsCore(code, index, length, startTag, endTag, excludeTag, cssClass, formattingInfoType, types, needsFullContext);
         }
 
-        private static IEnumerable<LanguageRegion> SplitRegionsCore(string code, int index, int length, string startTag, string endTag, bool excludeTag, string cssClass, Type formattingInfoType, IEnumerable<string> types, bool needsFullContext)
+        private static IEnumerable<LanguageRegion> SplitRegionsCore(string code, int index, int length, string startTag, string endTag, bool excludeTag, string? cssClass, Type formattingInfoType, IEnumerable<string>? types, bool needsFullContext)
         {
             int level = 0;
             int previousRegionStart = index;
-            IFormattingInfo nestedInfo = null;
+            IFormattingInfo? nestedInfo = null;
             int end = index + length;
             for( ; index < end; ++index )
             {
@@ -57,7 +57,7 @@ namespace Ookii.FormatC
                         if( nestedInfo == null )
                         {
                             nestedInfo = (IFormattingInfo)Activator.CreateInstance(formattingInfoType);
-                            IFormattingInfoWithTypes infoWithTypes = nestedInfo as IFormattingInfoWithTypes;
+                            IFormattingInfoWithTypes? infoWithTypes = nestedInfo as IFormattingInfoWithTypes;
                             if( infoWithTypes != null )
                                 infoWithTypes.Types = types;
                         }

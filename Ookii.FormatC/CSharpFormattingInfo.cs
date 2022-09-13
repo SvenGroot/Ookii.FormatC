@@ -35,8 +35,8 @@ namespace Ookii.FormatC
     /// <threadsafety static="true" instance="false" />
     public class CSharpFormattingInfo : IFormattingInfo, IFormattingInfoWithTypes
     {
-        private List<CodeElement> _patterns;
-        private IEnumerable<string> _types;
+        private List<CodeElement>? _patterns;
+        private IEnumerable<string>? _types;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CSharpFormattingInfo"/> class.
@@ -116,7 +116,7 @@ namespace Ookii.FormatC
         ///   in whatever context they occur.
         /// </para>
         /// </remarks>
-        public IEnumerable<string> Types
+        public IEnumerable<string>? Types
         {
             get { return _types; }
             set

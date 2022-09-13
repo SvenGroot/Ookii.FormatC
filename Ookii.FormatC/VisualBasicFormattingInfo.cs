@@ -46,8 +46,8 @@ namespace Ookii.FormatC
     /// <threadsafety static="true" instance="true" />
     public class VisualBasicFormattingInfo : IFormattingInfo, IMultilanguageFormattingInfo, IFormattingInfoWithTypes
     {
-        private List<CodeElement> _patterns;
-        private IEnumerable<string> _types;
+        private List<CodeElement>? _patterns;
+        private IEnumerable<string>? _types;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VisualBasicFormattingInfo"/> class.
@@ -133,7 +133,7 @@ namespace Ookii.FormatC
         ///   in whatever context they occur.
         /// </para>
         /// </remarks>
-        public IEnumerable<string> Types
+        public IEnumerable<string>? Types
         {
             get { return _types; }
             set

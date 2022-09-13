@@ -16,6 +16,6 @@ namespace Ookii.FormatC
         /// Gets or sets a list of identifiers that should be treated as type names.
         /// </summary>
         /// <value>A list of identifiers that should be treated as type names.</value>
-        IEnumerable<string> Types { get; set; }
+        IEnumerable<string>? Types { get; set; }
     }
 }

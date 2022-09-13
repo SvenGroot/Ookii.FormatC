@@ -36,7 +36,7 @@ namespace Ookii.FormatC
     /// <threadsafety static="true" instance="false" />
     public class CodeFormatter
     {
-        private IFormattingInfo _formattingInfo;
+        private IFormattingInfo? _formattingInfo;
         private int _tabSpaces = 4;
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Ookii.FormatC
         /// </value>
         public IFormattingInfo FormattingInfo
         {
-            get { return _formattingInfo ?? (_formattingInfo = new CSharpFormattingInfo()); }
+            get { return _formattingInfo ??= new CSharpFormattingInfo(); }
             set { _formattingInfo = value; }
         }
 
@@ -109,7 +109,7 @@ namespace Ookii.FormatC
         ///   This property is ignored if <see cref="IncludePreElement"/> is <see langword="false" />.
         /// </para>
         /// </remarks>
-        public string CssClass { get; set; } = DefaultCssClass;
+        public string? CssClass { get; set; } = DefaultCssClass;
 
         /// <summary>
         /// Gets or sets a value that indicates whether to emit the &lt;pre&gt; element in the
@@ -154,7 +154,7 @@ namespace Ookii.FormatC
         ///   property, this CSS class is applied to the &lt;td&gt; element containing the line numbers.
         /// </para>
         /// </remarks>
-        public string LineNumberCssClass { get; set; } = DefaultLineNumberCssClass;
+        public string? LineNumberCssClass { get; set; } = DefaultLineNumberCssClass;
 
         /// <summary>
         /// Gets a value indicating whether fallback formatting was used by the last call to <see cref="FormatCode(string)"/>.
@@ -175,7 +175,6 @@ namespace Ookii.FormatC
         {
             var result = new StringWriter(new StringBuilder(code.Length * 2));
             FormatCode(code, result);
-            //result.GetStringBuilder().Replace("\n", "\r\n");
             return result.ToString();
         }
 
@@ -295,7 +294,7 @@ namespace Ookii.FormatC
         private static bool FormatCodeMultilanguage(IFormattingInfo info, string code, TextWriter result, int start, int length, IMultilanguageFormattingInfo multilanguageInfo)
         {
             bool usedFallbackFormatting = false;
-            string fullContextCode = null;
+            string? fullContextCode = null;
             LanguageRegion[] regions = multilanguageInfo.SplitRegions(code, start, length).ToArray();
             foreach( LanguageRegion region in regions )
             {

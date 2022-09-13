@@ -7,7 +7,7 @@ namespace Ookii.FormatC
 {
     internal static class TextWriterExtensions
     {
-        public static void WriteStartElement(this TextWriter writer, string element, string className)
+        public static void WriteStartElement(this TextWriter writer, string element, string? className)
         {
             writer.Write("<");
             writer.Write(element);
@@ -21,7 +21,7 @@ namespace Ookii.FormatC
             writer.Write('>');
         }
 
-        public static void WriteStartElement(this TextWriter writer, string className = null)
+        public static void WriteStartElement(this TextWriter writer, string? className = null)
         {
             writer.WriteStartElement("span", className);
         }

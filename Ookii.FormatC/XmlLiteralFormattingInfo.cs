@@ -35,12 +35,11 @@ namespace Ookii.FormatC
             get { return true; }
         }
 
-        public IEnumerable<string> Types { get; set; }
+        public IEnumerable<string>? Types { get; set; }
 
         public IEnumerable<LanguageRegion> SplitRegions(string code, int index, int length)
         {
             return MultilanguageHelper.SplitRegions(code, index, length, "<%=", "%>", false, null, typeof(VisualBasicFormattingInfo), Types, true);
         }
-
     }
 }
