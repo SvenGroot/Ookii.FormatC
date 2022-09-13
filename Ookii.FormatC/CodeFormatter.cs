@@ -38,13 +38,23 @@ namespace Ookii.FormatC
     {
         private IFormattingInfo _formattingInfo;
         private int _tabSpaces = 4;
-        private string _lineNumberFormat = "{0,3}. ";
 
         /// <summary>
         /// The default CSS class for the &lt;pre&gt; element wrapping the formatted
         /// output. The value is "code".
         /// </summary>
         public const string DefaultCssClass = "code";
+
+        /// <summary>
+        /// The default CSS class for the &lt;span&gt; elements wrapping line numbers.
+        /// The value is "lineNumber".
+        /// </summary>
+        public const string DefaultLineNumberCssClass = "lineNumber";
+
+        /// <summary>
+        /// The default format string used for line numbers. The value is "{0,3}. ".
+        /// </summary>
+        public const string DefaultLineNumberFormat = "{0,3}. ";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeFormatter"/> class.
@@ -125,16 +135,26 @@ namespace Ookii.FormatC
         /// Gets or sets the format string used to format the line numbers.
         /// </summary>
         /// <value>
-        /// The <see href="http://msdn.microsoft.com/en-us/library/txafckwd.aspx">composite format string</see> used for format the line numbes. The default value is "{0,3}. ".
+        /// The <see href="http://msdn.microsoft.com/en-us/library/txafckwd.aspx">composite format string</see> used for format the line numbes.
+        /// The default value is the value of <see cref="DefaultLineNumberFormat"/>.
         /// </value>
         /// <remarks>
         /// The format string should contain the "{0}" placeholder in the position where the number itself should be.
         /// </remarks>
-        public string LineNumberFormat
-        {
-            get { return _lineNumberFormat; }
-            set { _lineNumberFormat = value; }
-        }
+        public string LineNumberFormat { get; set; } = DefaultLineNumberFormat;
+
+        /// <summary>
+        /// Gets or sets the CSS class used for &lt;span&gt; elements wrapping line numbers.
+        /// </summary>
+        /// <value>The CSS class, or <see langword="null" /> to not use a CSS class. The default
+        /// value is <see cref="DefaultLineNumberCssClass"/>.</value>
+        /// <remarks>
+        /// <para>
+        ///   If you use <see cref="LineNumberMode.Table"/> for the <see cref="LineNumberMode"/>
+        ///   property, this CSS class is applied to the &lt;td&gt; element containing the line numbers.
+        /// </para>
+        /// </remarks>
+        public string LineNumberCssClass { get; set; } = DefaultLineNumberCssClass;
 
         /// <summary>
         /// Gets a value indicating whether fallback formatting was used by the last call to <see cref="FormatCode(string)"/>.
@@ -187,7 +207,7 @@ namespace Ookii.FormatC
                 if (LineNumberMode == LineNumberMode.Inline)
                 {
                     codeWriter.LineNumberFormat = LineNumberFormat;
-                    codeWriter.LineNumberClassName = "lineNumber";
+                    codeWriter.LineNumberClassName = LineNumberCssClass;
                 }
 
                 UsedFallbackFormatting = FormatCodeCore(FormattingInfo, code, codeWriter, true, 0, code.Length, false);
@@ -202,7 +222,8 @@ namespace Ookii.FormatC
         private void FormatCodeLineNumberTable(string code, TextWriter writer)
         {
             writer.WriteStartElement("div", CssClass);
-            writer.Write("<table><tr><td class=\"lineNumbers\">");
+            writer.Write("<table><tr>");
+            writer.WriteStartElement("td", LineNumberCssClass);
             int lineNumber = 0;
 
             // We assume the formatted result will have the same number of lines.
@@ -213,7 +234,7 @@ namespace Ookii.FormatC
                     if (lineNumber > 0)
                         writer.Write("<br />");
                     ++lineNumber;
-                    writer.Write(_lineNumberFormat, lineNumber);
+                    writer.Write(LineNumberFormat, lineNumber);
                 }
             }
 

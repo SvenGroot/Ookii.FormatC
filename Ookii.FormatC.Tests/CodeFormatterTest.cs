@@ -145,6 +145,22 @@ namespace Ookii.FormatC.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod()]
+        public void LineNumberCustomizationTest()
+        {
+            var target = new CodeFormatter() 
+            {
+                LineNumberMode = LineNumberMode.Inline,
+                LineNumberCssClass = "different",
+                LineNumberFormat = "{0:000}: ",
+            };
+            target.FormattingInfo = new CSharpFormattingInfo();
+            const string code = "int i = 5;";
+            const string expected = "<pre class=\"code\"><span class=\"different\">001: </span><span class=\"keyword\">int</span> i = 5;</pre>";
+            var actual = target.FormatCode(code);
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestMethod]
         public void CssClassTest()
         {
