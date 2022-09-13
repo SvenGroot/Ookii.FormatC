@@ -64,7 +64,7 @@ namespace Ookii.FormatC
                         new CodeElement("string", @"(@("".*?"")*"".*?"")|("".*?(?<![^\\](\\\\)*\\)"")|('.*?(?<![^\\](\\\\)*\\)')"),
                         new CodeElement("escapedContextualKeyword", @"`[a-zA-Z0-9_]+") { ElementNameIsCssClass = false, MatchValueProcessor = value => value.Substring(1) },
                         new CodeElement("escapedIdentifier", @"@[a-zA-Z0-9_]+") { ElementNameIsCssClass = false },
-                        new CodeElement("keyword", new string[] { "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char",
+                        new CodeElement("keyword", new[] { "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char",
                             "checked", "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event",
                             "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in",
                             "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out",
@@ -72,12 +72,15 @@ namespace Ookii.FormatC
                             "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
                             "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
                             // The remainder are contextual keywords
-                            "add", "and", "alias", "ascending", "async", "await", "by", "descending", "dynamic", "equals", "from", "get", "global",
+                            // Note: "args" is deliberately excluded because it provides access to the "args" variable
+                            // in top-level statements, and I don't think it should be colored as a keyword even in
+                            // that context.
+                            "add", "and", "alias", "ascending", /* "args", */ "async", "await", "by", "descending", "dynamic", "equals", "from", "get", "global",
                             "group", "init", "into", "join", "let", "managed", "nameof", "nint", "not", "notnull", "nuint", "on", "or", "orderby",
-                            "partial", "record", "remove", "select", "set", "unmanaged", "value", "var", "when", "where", "with", "yield"
+                            "partial", "record", "remove", "required", "select", "set", "unmanaged", "value", "var", "when", "where", "with", "yield",
                         }),
                         new CodeElement("preprocessor", new string[] { "#if", "#else", "#elif", "#endif", "#define", "#undef", "#warning", "#error", 
-                        "#line", "#region", "#endregion", "#pragma" }) 
+                        "#line", "#region", "#endregion", "#pragma", "#nullable" })
                     };
 
                     if( _types != null )
