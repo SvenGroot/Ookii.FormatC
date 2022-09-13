@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="code.css" />
+        <style type="text/css">
+            pre {
+                padding: 0.5em;
+                border: solid 1px black;
+            }
+        </style>
+        <script type="text/javascript">
+            function toggleDark() {
+                // Obtains an array of all <link>
+                // elements.
+                // Select your element using indexing.
+                var theme = document.getElementsByTagName('link')[0];
+  
+                // Change the value of href attribute 
+                // to change the css sheet.
+                if (theme.getAttribute('href') == 'code.css') {
+                    theme.setAttribute('href', 'codedark.css');
+                } else {
+                    theme.setAttribute('href', 'code.css');
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Samples</h1>
+        <p>
+            Below are some samples of FormatC's output. These same samples are used for the unit tests, so check the
+            tests for the corresponding code files.
+        </p>
+        <p>
+            <a href="javascript:toggleDark()">Toggle light/dark</a>
+        </p>
+        <h1>C# (with line numbers)</h1>
+<pre class="code"><span class="lineNumber">  1. </span><span class="keyword">using</span> System;
+<span class="lineNumber">  2. </span><span class="comment">// A single line comment starting at the beginning of the line</span>
+<span class="lineNumber">  3. </span><span class="keyword">using</span> System.IO;
+<span class="lineNumber">  4. </span><span class="comment">/* A comment block starting at the beginning of the line */</span>
+<span class="lineNumber">  5. </span>
+<span class="lineNumber">  6. </span>
+<span class="lineNumber">  7. </span><span class="keyword">namespace</span> CSharpTest
+<span class="lineNumber">  8. </span>{
+<span class="lineNumber">  9. </span>    <span class="comment">// A comment containing what looks like a &quot;string&quot;</span>
+<span class="lineNumber"> 10. </span>    <span class="comment">// A comment containing /* what looks like */ a block comment</span>
+<span class="lineNumber"> 11. </span>    <span class="comment">/* A multiline comment
+<span class="lineNumber"> 12. </span>     * also containing a // regular comment
+<span class="lineNumber"> 13. </span>     * And containing what looks like a &quot;string&quot;
+<span class="lineNumber"> 14. </span>     */</span>
+<span class="lineNumber"> 15. </span>
+<span class="lineNumber"> 16. </span>    <span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Program</span>
+<span class="lineNumber"> 17. </span>    {
+<span class="lineNumber"> 18. </span>        <span class="comment">/// &lt;summary&gt;</span>
+<span class="lineNumber"> 19. </span>        <span class="comment">/// An XML comment &lt;see cref=&quot;System.String&quot; /&gt;.</span>
+<span class="lineNumber"> 20. </span>        <span class="comment">/// &lt;/summary&gt;</span>
+<span class="lineNumber"> 21. </span>        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Main()
+<span class="lineNumber"> 22. </span>        {
+<span class="lineNumber"> 23. </span>            <span class="keyword">int</span> Int; <span class="comment">// case sensitive test</span>
+<span class="lineNumber"> 24. </span>            <span class="keyword">int</span> @int; <span class="comment">// escaping test</span>
+<span class="lineNumber"> 25. </span>            <span class="keyword">int</span> from; <span class="comment">// contextual escaping test</span>
+<span class="lineNumber"> 26. </span>            <span class="type">Console</span>.WriteLine(<span class="string">&quot;A string \&quot; \\\&quot; hello \t\\&quot;</span>);
+<span class="lineNumber"> 27. </span>            <span class="type">Console</span>.WriteLine(<span class="string">&quot;A string containing what // looks like a comment.&quot;</span>); <span class="comment">// followed by a real comment</span>
+<span class="lineNumber"> 28. </span>            <span class="type">Console</span>.WriteLine(<span class="string">@&quot;An @ string&quot;&quot; \&quot;</span>); <span class="comment">/* and another comment */</span>
+<span class="lineNumber"> 29. </span>            <span class="type">Console</span>.WriteLine(<span class="string">@&quot;Another @ string &quot;&quot;&quot;&quot;&quot;</span>);
+<span class="lineNumber"> 30. </span>            <span class="type">Console</span>.WriteLine(<span class="string">&quot;{0} {1} {2}&quot;</span>, <span class="string">&quot;more than one\\&quot;</span>, <span class="comment">/* embedded comment */</span> <span class="string">@&quot;string on &quot;&quot;the same&quot;</span>, <span class="string">&quot;line&quot;</span>);
+<span class="lineNumber"> 31. </span><span class="preprocessor">#if</span> PREPROCESSORTEST
+<span class="lineNumber"> 32. </span>            <span class="keyword">for</span>( <span class="keyword">int</span> x = 0; x &lt; 10; ++x )
+<span class="lineNumber"> 33. </span>            {
+<span class="lineNumber"> 34. </span>                <span class="type">Console</span>.WriteLine(<span class="string">&#39;x&#39;</span>);
+<span class="lineNumber"> 35. </span>                <span class="type">Console</span>.WriteLine(<span class="string">&#39;\&#39;&#39;</span>);
+<span class="lineNumber"> 36. </span>                <span class="type">Console</span>.WriteLine(<span class="string">&#39;\\&#39;</span>);
+<span class="lineNumber"> 37. </span>            }
+<span class="lineNumber"> 38. </span><span class="preprocessor">#endif</span>
+<span class="lineNumber"> 39. </span>        }
+<span class="lineNumber"> 40. </span>
+<span class="lineNumber"> 41. </span>        <span class="keyword">public</span> <span class="keyword">async</span> Task Foo()
+<span class="lineNumber"> 42. </span>        {
+<span class="lineNumber"> 43. </span>            <span class="keyword">await</span> Bar();
+<span class="lineNumber"> 44. </span>        }
+<span class="lineNumber"> 45. </span>    }
+<span class="lineNumber"> 46. </span>}</pre>
+
+        <h1>C++</h1>
+<pre class="code"><span class="preprocessor">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="preprocessor">#using</span> <span class="string">&lt;System.dll&gt;</span>
+<span class="comment">// A comment at the beginning of a line</span>
+<span class="preprocessor">#include</span> <span class="string">&quot;test.h&quot;</span>
+<span class="comment">/* A block comment at the beginning of a line */</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> std;
+
+<span class="keyword">template</span>&lt;<span class="keyword">int</span> x, <span class="keyword">int</span> y&gt;
+<span class="keyword">struct</span> gcd
+{
+    <span class="comment">/* Another block comment
+     * containg a // regular comment
+     * and what looks like a &quot;string&quot;
+     */</span>
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> value = gcd&lt;y, x % y&gt;::value;
+};
+
+<span class="keyword">template</span>&lt;<span class="keyword">int</span> x&gt;
+<span class="keyword">struct</span> gcd&lt;x, 0&gt;
+{
+    <span class="comment">// A comment containing /* a block comment */ and what looks like a &quot;string&quot;</span>
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> value = x;
+};
+
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">int</span> Int; <span class="comment">// case sensitive test</span>
+    <span class="keyword">int</span> x = gcd&lt;511, 42&gt;::value;
+    cout &lt;&lt; x &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">&quot;It&#39;s a \&quot;string\\\&quot; \\&quot;</span> &lt;&lt; endl; <span class="comment">/* another block comment */</span>
+    cout &lt;&lt; <span class="string">&quot;A string /* containg what */ looks like // a comment.&quot;</span> &lt;&lt; endl; <span class="comment">// and a real comment</span>
+    cout &lt;&lt; <span class="string">&#39;c&#39;</span> &lt;&lt; <span class="string">&#39;\&#39;&#39;</span> &lt;&lt; <span class="string">&#39;\\&#39;</span> &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">&quot;more&quot;</span> &lt;&lt; <span class="string">&quot;than\&quot;&quot;</span> &lt;&lt; <span class="string">&quot;one string on the same line&quot;</span> &lt;&lt; endl;
+
+    <span class="keyword">return</span> 0;
+}</pre>
+
+        <h1>PowerShell (using System.Management.Automation)</h1>
+<pre class="code"><span class="psKeyword">param</span><span class="psGroupStart">(</span>
+  <span class="psOperator">[</span><span class="psAttribute">parameter</span><span class="psGroupStart">(</span><span class="psMember">Position</span><span class="psOperator">=</span><span class="psNumber">0</span><span class="psOperator">,</span> <span class="psMember">Mandatory</span><span class="psOperator">=</span><span class="psVariable">$true</span><span class="psGroupEnd">)</span><span class="psOperator">]</span><span class="psType">[string]</span><span class="psVariable">$VirtualMachineName</span><span class="psOperator">,</span>
+  <span class="psOperator">[</span><span class="psAttribute">parameter</span><span class="psGroupStart">(</span><span class="psMember">Position</span><span class="psOperator">=</span><span class="psNumber">1</span><span class="psOperator">,</span> <span class="psMember">Mandatory</span><span class="psOperator">=</span><span class="psVariable">$true</span><span class="psGroupEnd">)</span><span class="psOperator">]</span><span class="psType">[string]</span><span class="psVariable">$FloppyPath</span><span class="psOperator">,</span>
+  <span class="psOperator">[</span><span class="psAttribute">parameter</span><span class="psGroupStart">(</span><span class="psMember">Mandatory</span><span class="psOperator">=</span><span class="psVariable">$false</span><span class="psGroupEnd">)</span><span class="psOperator">]</span><span class="psType">[Switch]</span><span class="psVariable">$HostDrive</span>
+<span class="psGroupEnd">)</span>
+
+<span class="psComment">#asdfsadf</span>
+
+<span class="psVariable">$vpc</span> <span class="psOperator">=</span> <span class="psCommand">New-Object</span> <span class="psCommandParameter">-ComObject</span> <span class="psString">&quot;VirtualPC.Application&quot;</span>
+<span class="psVariable">$vm</span> <span class="psOperator">=</span> <span class="psVariable">$vpc</span><span class="psOperator">.</span><span class="psMember">FindVirtualMachine</span><span class="psGroupStart">(</span><span class="psVariable">$VirtualMachineName</span><span class="psGroupEnd">)</span>
+<span class="psKeyword">if</span><span class="psGroupStart">(</span> <span class="psVariable">$vm</span> <span class="psOperator">-eq</span> <span class="psVariable">$null</span> <span class="psGroupEnd">)</span>
+<span class="psGroupStart">{</span>
+    <span class="psCommand">Write-Error</span> <span class="psString">&quot;Virtual machine not found.&quot;</span>
+<span class="psGroupEnd">}</span>
+<span class="psKeyword">else</span>
+<span class="psGroupStart">{</span>
+    <span class="psKeyword">if</span><span class="psGroupStart">(</span> <span class="psVariable">$HostDrive</span> <span class="psGroupEnd">)</span>
+    <span class="psGroupStart">{</span>
+        <span class="psVariable">$vm</span><span class="psOperator">.</span><span class="psMember">FloppyDrives</span><span class="psOperator">.</span><span class="psMember">Item</span><span class="psGroupStart">(</span><span class="psNumber">1</span><span class="psGroupEnd">)</span><span class="psOperator">.</span><span class="psMember">AttachHostDrive</span><span class="psGroupStart">(</span><span class="psVariable">$FloppyPath</span><span class="psGroupEnd">)</span>
+    <span class="psGroupEnd">}</span>
+    <span class="psKeyword">else</span>
+    <span class="psGroupStart">{</span>
+        <span class="psVariable">$vm</span><span class="psOperator">.</span><span class="psMember">FloppyDrives</span><span class="psOperator">.</span><span class="psMember">Item</span><span class="psGroupStart">(</span><span class="psNumber">1</span><span class="psGroupEnd">)</span><span class="psOperator">.</span><span class="psMember">AttachImage</span><span class="psGroupStart">(</span><span class="psVariable">$FloppyPath</span><span class="psGroupEnd">)</span>
+    <span class="psGroupEnd">}</span>
+<span class="psGroupEnd">}</span></pre>
+
+        <h1>XML</h1>
+<pre class="code"><span class="tagDelimiter">&lt;?</span><span class="tagName">xml</span> <span class="attributeName">version</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;1.0&quot;</span>
+      <span class="attributeName">encoding</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;utf-8&quot;</span> <span class="tagDelimiter">?&gt;</span>
+<span class="tagDelimiter">&lt;</span><span class="tagName">Foo</span> <span class="attributeName">xmlns:html</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="tagDelimiter">&gt;</span>
+  <span class="tagDelimiter">&lt;</span><span class="tagName">html:a</span> <span class="attributeName">href</span><span class="attributeDelimiter">=</span><span class="attributeValue">&#39;http://www.ookii.org&#39;</span><span class="tagDelimiter">&gt;</span> not=&quot;an attribute&quot;
+    <span class="comment">&lt;!-- A comment containing what looks like an &lt;element&gt; and a &quot;string&quot; --&gt;</span>
+  <span class="tagDelimiter">&lt;/</span><span class="tagName">html:a</span><span class="tagDelimiter">&gt;</span>
+  <span class="entity">&amp;lt;</span>entities<span class="entity">&amp;gt;</span>
+  <span class="tagDelimiter">&lt;</span><span class="tagName">Foo-Bar</span> <span class="attributeName">test</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;single &#39; quotes are valid in double quoted attributes=&quot;</span> <span class="attributeName">test2</span><span class="attributeDelimiter">=</span><span class="attributeValue">&#39;and double &quot; inside single&#39;</span>
+       <span class="attributeName">test3</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;and &amp;quot; valid anywhere&quot;</span>
+       <span class="tagDelimiter">&gt;</span>
+    <span class="tagDelimiter">&lt;![CDATA[</span><span class="cdata"> A CDATA section 
+      Containing what looks like an &lt;element&gt; and a &quot;string&quot;
+    </span><span class="tagDelimiter">]]&gt;</span>
+  <span class="tagDelimiter">&lt;/</span><span class="tagName">Foo-Bar</span><span class="tagDelimiter">&gt;</span>
+  <span class="tagDelimiter">&lt;</span><span class="tagName">element.with.a.period.in.it</span> <span class="attributeName">attribute.with.period</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;test&quot;</span><span class="tagDelimiter">&gt;</span>
+  <span class="tagDelimiter">&lt;/</span><span class="tagName">element.with.a.period.in.it</span><span class="tagDelimiter">&gt;</span>
+<span class="tagDelimiter">&lt;/</span><span class="tagName">Foo</span><span class="tagDelimiter">&gt;</span></pre>
+
+        <h1>Visual Basic</h1>
+<pre class="code"><span class="keyword">Imports</span> System
+<span class="comment">&#39; A comment at the beginning of a line</span>
+<span class="keyword">Imports</span> System.IO
+<span class="comment">REM A REM comment at the beginning of a line</span>
+<span class="keyword">Imports</span> <span class="xmlDelimiter">&lt;</span><span class="xmlImportAttributeName">xmlns:a</span><span class="xmlImportAttributeDelimiter">=</span><span class="xmlImportAttributeQuotes">&quot;</span><span class="xmlImportAttributeValue">http://www.ookii.org</span><span class="xmlImportAttributeQuotes">&quot;</span><span class="xmlDelimiter">&gt;</span>
+
+<span class="keyword">Namespace</span> VisualBasicTest
+    <span class="comment">&#39; A comment, containing what looks like a &quot;string&quot;</span>
+    <span class="comment">REM A REM comment containg an &#39; ordinary comment</span>
+    <span class="keyword">Public</span> <span class="keyword">Class</span> <span class="type">Program</span>
+        <span class="keyword">Public</span> <span class="keyword">Sub</span> Main()
+            <span class="keyword">Dim</span> [Integer] <span class="keyword">As</span> <span class="keyword">Integer</span> <span class="comment">&#39; Escape test</span>
+            <span class="keyword">Dim</span> From <span class="keyword">As</span> <span class="keyword">String</span> <span class="comment">&#39; Contextual escape test</span>
+
+            <span class="type">Console</span>.WriteLine(<span class="string">&quot;A string&quot;</span><span class="string">&quot;hello&quot;</span><span class="string">&quot;&quot;</span>)
+            <span class="keyword">for</span> x = 0 <span class="keyword">to</span> 10 <span class="comment">&#39; Lowercase for case insensitive test.</span>
+                <span class="type">Console</span>.WriteLine(<span class="string">&quot;a&quot;c</span>)
+            <span class="keyword">Next</span>
+            <span class="keyword">Dim</span> foo = <span class="xmlLiteral"><span class="tagDelimiter">&lt;?</span><span class="tagName">xml</span> <span class="attributeName">version</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;1.0&quot;</span><span class="tagDelimiter">?&gt;</span>
+                      <span class="tagDelimiter">&lt;</span><span class="tagName">Foo</span> <span class="attributeName">test</span><span class="attributeDelimiter">=</span><span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">Date</span>.Now <span class="embeddedExpressionDelimiter">%&gt;</span> <span class="attributeName">a:bar</span><span class="attributeDelimiter">=</span><span class="attributeValue">&quot;baz&quot;</span><span class="tagDelimiter">&gt;</span>
+                          <span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">If</span>(a, <span class="xmlLiteral"><span class="tagDelimiter">&lt;</span><span class="tagName">a</span> <span class="tagDelimiter">/&gt;</span></span>, <span class="xmlLiteral"><span class="tagDelimiter">&lt;</span><span class="tagName">b</span> <span class="attributeName">c</span><span class="attributeDelimiter">=</span><span class="embeddedExpressionDelimiter">&lt;%=</span> <span class="keyword">Date</span>.UtcNow <span class="embeddedExpressionDelimiter">%&gt;</span><span class="tagDelimiter">/&gt;</span></span>) <span class="embeddedExpressionDelimiter">%&gt;</span>
+                      <span class="tagDelimiter">&lt;/</span><span class="tagName">Foo</span><span class="tagDelimiter">&gt;</span></span>
+            <span class="keyword">Dim</span> bar = <span class="keyword">From</span> f <span class="keyword">In</span> foo _
+                      <span class="keyword">Where</span> f.<span class="xmlDelimiter">&lt;</span>Foo<span class="xmlDelimiter">&gt;</span>.<span class="xmlDelimiter">@</span>a:bar = <span class="string">&quot;baz&quot;</span>
+<span class="preprocessor">#If</span> TEST <span class="keyword">Then</span>
+            <span class="type">Console</span>.WriteLine(<span class="string">&quot;{0} {1} {2}&quot;</span>, <span class="string">&quot;more than one&quot;</span>, <span class="string">&quot;string on &quot;</span><span class="string">&quot;the same&quot;</span>, <span class="string">&quot;line&quot;</span>);
+<span class="preprocessor">#End</span> <span class="keyword">If</span>
+        <span class="keyword">End</span> <span class="keyword">Sub</span>
+    <span class="keyword">End</span> <span class="keyword">Class</span>
+<span class="keyword">End</span> <span class="keyword">Namespace</span></pre>
+        <h1>T-SQL</h1>
+<pre class="code"><span class="comment">--a comment containg a &quot;string&quot;</span>
+<span class="comment">/* and another comment
+ * containing what looks like -- a regular comment
+ * and a &quot;string&quot;
+ */</span>
+
+<span class="keyword">SELECT</span> <span class="sqlOperator">*</span> <span class="keyword">FROM</span> Foo;
+
+<span class="keyword">SELECT</span> <span class="escapedIdentifier">[from]</span> <span class="keyword">FROM</span> <span class="escapedIdentifier">&quot;Select&quot;</span><span class="sqlOperator">;</span>
+
+<span class="keyword">INSERT</span> <span class="keyword">INTO</span> Bar(test, test1, test2)
+<span class="keyword">VALUES</span> <span class="sqlOperator">(</span><span class="sqlString">&#39;a string&#39;</span><span class="sqlOperator">,</span> <span class="sqlString">&#39;another&#39;</span><span class="sqlString">&#39; string\&#39;</span><span class="sqlOperator">,</span> <span class="sqlString">N&#39;A widechar&#39;</span><span class="sqlString">&#39; string&#39;</span><span class="sqlOperator">)</span><span class="sqlOperator">;</span>
+
+<span class="keyword">select</span> test <span class="keyword">from</span> bar <span class="comment">-- case insensitive test</span>
+
+<span class="keyword">SELECT</span> <span class="sqlString">&#39;a string /* containing */&#39;</span> <span class="sqlOperator">+</span> <span class="sqlString">&#39; what -- looks like a comment&#39;</span> <span class="comment">/* and a real comment */</span>
+
+<span class="keyword">SELECT</span> <span class="sqlSystemFunction">@@VERSION</span>;</pre>
+    </body>
+</html>

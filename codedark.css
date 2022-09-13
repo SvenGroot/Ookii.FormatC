@@ -1,4 +1,4 @@
-/* This is the default style sheet for syntax highlighting with FormatC 2.0.
+/* This is the default style sheet for syntax highlighting with FormatC.
  * This stylesheet follows the default settings of Visual Studio,
  * SQL Server Management Studio (for T-SQL), and PowerShell ISE 
  * (for PowerShell) as much as possible.
@@ -7,6 +7,8 @@
  */
 .code
 {
+	background-color: #1e1e1e;
+	color: #dcdcdc;
 	font-size: small;
 	font-family: Consolas, monospace;
 }
@@ -31,132 +33,130 @@
 {
     text-align: right;
 }
-.code .keyword, .code .preprocessor
+.code .keyword
 {
-	color: #00F;
+	color: rgb(86,156,214);
+}
+.code .preprocessor
+{
+	color: rgb(155,155,155);
 }
 .code .operator
 {
-	color: #C63;
+	color: rgb(180,180,180);
 }
 .code .comment
 {
-	color: #008000;
+	color: rgb(87,166,74);
 }
 .code .xmlLiteral .comment
 {
-	color: #629755;
+	color: rgb(96, 139, 78);
 }
 .code .string
 {
-	color: #A31515;
+	color: rgb(214,157,133)
 }
 .code .entity
 {
-	color: #F00;
+	color: rgb(146,202,244);
 }
 .code .tagDelimiter, .code .attributeDelimiter
 {
-	color: #00F;
+	color: rgb(128, 128, 128);
 }
 .code .xmlLiteral .tagDelimiter, .code .xmlLiteral .attributeDelimiter, .code .xmlDelimiter, .code .xmlImportAttributeDelimiter
 {
-	color: #6464B9;
+	color: rgb(137,187,130);
 }
 .code .tagName
 {
-	color: #A31515;
+	color: rgb(86,156,214);
 }
 .code .xmlLiteral .tagName
 {
-	color: #844646;
+	color: rgb(86,156,214);
 }
 .code .attributeName
 {
-	color: #F00;	
+	color: rgb(146,202,244);	
 }
-.code .xmlLiteral .attributeName, .code .xmlImportAttributeName
+.code .xmlLiteral .attributeName, .code .xmlImportAttributeName, .code .xmlLiteral .attributeValue, .code .xmlImportAttributeValue
 {
-	color: #B96464;
+	color: rgb(200,200,200);
 }
 .code .attributeValue
 {
-	color: #00F
-}
-.code .xmlLiteral .attributeValue, .code .xmlImportAttributeValue
-{
-	color: #6464B9;
+	color: rgb(200,200,200)
 }
 .code .cdata
 {
-	color: #808080;
+	color: rgb(233,213,133);
 }
 .code .xmlLiteral .cdata
 {
-	color: #C0C0C0;
+	color: rgb(233,213,133);
 }
 .code .type
 {
-	color: #2B91AF;
+	color: rgb(78,201,176);
 }
 .code .xmlLiteral .embeddedExpressionDelimiter
 {
-	color: #555;
-	background-color: #FFFEBF;
+	color: rgb(113,113,113);
+	background-color: rgb(237,224,209);
 }
 .code .sqlString
 {
-	color: #F00;
+	color: rgb(203,65,65);
 }
 .code .sqlSystemFunction
 {
-	color: #F0F;
+	color: rgb(201,117,213);
 }
 .code .sqlOperator
 {
-	color: #808080;
+	color: rgb(129,129,129);
 }
 .code .psVariable
 {
-    color: #FF4511;
+    color: #9CDCFE;
 }
 .code .psComment
 {
-    color: #006400;
+    color: #6A9955;
 }
 .code .psString
 {
-    color: #8B0000;
+    color: #ce9178;
 }
 .code .psOperator
 {
-    color: #A9A9A9
+    color: #d4d4d4;
 }
 .code .psCommand
 {
-    color: #0000FF;
+    color: #DCDCAA;
 }
-.code .psCommandParameter
+/*.code .psCommandParameter
 {
-    color: #000080;
 }
 .code .psCommandArgument
 {
-    color: #8D2BE2;
-}
+}*/
 .code .psAttribute
 {
-    color: #ADD8E6;
+    color: #DCDCAA;
 }
 .code .psNumber
 {
-    color: #800080;
+    color: #b5cea8;
 }
 .code .psType
 {
-    color: #008080;
+    color: #4EC9B0;
 }
 .code .psKeyword, .code .psLoopLabel
 {
-    color: #26008B;
+    color: #569cd6;
 }
