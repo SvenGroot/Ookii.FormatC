@@ -42,7 +42,7 @@ For more usage information, please refer to the [class library documentation](ht
 The generated output will use CSS class names for different code elements. A CSS stylesheet
 is provided for [light](code.css) and [dark](codedark.css) styles.
 
-You can view the included [sample output](sample.html) to see what the output
+You can view the included [sample output](https://www.ookii.org/Link/FormatCSample) to see what the output
 of FormatC looks like, or format your own code with the [online syntax highlighter](https://www.ookii.org/Software/FormatC/Highlight).
 
 You can also [try it on .Net Fiddle](https://dotnetfiddle.net/rO80Or).
