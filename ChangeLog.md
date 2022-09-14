@@ -2,7 +2,7 @@
 
 ## Version 2.3.1
 
-- Corrected an incorrectly binary in the NuGet package.
+- Corrected an outdated binary in the NuGet package.
 
 ## Version 2.3
 
