@@ -33,6 +33,8 @@ namespace Ookii.FormatC
     /// formatter.FormattingInfo = new CSharpFormattingInfo();
     /// string formattedHtml = formatter.FormatCode(System.IO.File.ReadAllText("MySourceFile.cs"));</code>
     /// </example>
+    /// <seealso href="sample.html">Sample output of of the <see cref="FormatCode(string)"/> method
+    /// for various languages.</seealso>
     /// <threadsafety static="true" instance="false" />
     public class CodeFormatter
     {

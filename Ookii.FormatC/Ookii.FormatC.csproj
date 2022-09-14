@@ -12,7 +12,7 @@
     <Company>Ookii.org</Company>
     <Description>Ookii.FormatC is a .Net class library that allows you to add syntax highlighting to your C#, Visual Basic, C++, XML, HTML, Transact-SQL or PowerShell source code, so you can publish it on a web page or blog post.</Description>
     <Copyright>Copyright © Sven Groot (Ookii.org)</Copyright>
-    <PackageLicenseExpression>BSD</PackageLicenseExpression>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/SvenGroot/Ookii.FormatC</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SvenGroot/Ookii.FormatC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
