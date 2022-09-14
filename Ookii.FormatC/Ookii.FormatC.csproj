@@ -12,15 +12,13 @@
     <Company>Ookii.org</Company>
     <Description>Ookii.FormatC is a .Net class library that allows you to add syntax highlighting to your C#, Visual Basic, C++, XML, HTML, Transact-SQL or PowerShell source code, so you can publish it on a web page or blog post.</Description>
     <Copyright>Copyright © Sven Groot (Ookii.org)</Copyright>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageLicenseExpression>BSD</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/SvenGroot/Ookii.FormatC</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SvenGroot/Ookii.FormatC</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>syntax highlighting parsing highlight parse format</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageReleaseNotes>- Removed System.Management.Automation dependency. PowerShell formatting with the PSParser class is still possible, but now requires the library consumer to reference System.Management.Automation or pass the assembly to the PowerShellFormattingInfo class constructor.
-- Updated C# keywords for C# 9.0.
-- Added support for omitting CSS class or pre element.</PackageReleaseNotes>
+    <PackageReleaseNotes>For details, see https://www.ookii.org/Link/FormatCVersionHistory</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
