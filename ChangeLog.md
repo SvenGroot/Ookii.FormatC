@@ -1,5 +1,9 @@
 # What's new in Ookii.FormatC
 
+## Version 2.3.1
+
+- Corrected an incorrectly binary in the NuGet package.
+
 ## Version 2.3
 
 - Updated CSS stylesheet, including a new dark mode stylesheet.
