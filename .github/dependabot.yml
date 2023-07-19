@@ -10,6 +10,10 @@ updates:
        all-dependencies:
           patterns:
              - "*"
+    ignore:
+        # PowerShell 7.3 and later require .Net 7, so can't be used.
+      - dependency-name: "System.Management.Automation"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
