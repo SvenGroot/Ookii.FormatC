@@ -1,5 +1,9 @@
 # What's new in Ookii.FormatC
 
+## Version 2.3.2
+
+- [Source Link](https://github.com/dotnet/sourcelink) integration.
+
 ## Version 2.3.1
 
 - Corrected an outdated binary in the NuGet package.
