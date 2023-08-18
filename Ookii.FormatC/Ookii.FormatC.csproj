@@ -26,10 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\license.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <None Include="PackageReadme.md" Pack="True" PackagePath="" />
   </ItemGroup>
 
 </Project>
