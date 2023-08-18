@@ -1,13 +1,12 @@
 // Copyright © Sven Groot (Ookii.org)
 // BSD license; see license.txt for details.
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Reflection;
 
 namespace Ookii.FormatC
 {
@@ -59,11 +58,11 @@ namespace Ookii.FormatC
         private static readonly CodeElement[] _patterns = new CodeElement[] {
                     new CodeElement("psComment", @"#.*?$"),
                     new CodeElement("psString", @""".*?""|'.*?'"),
-                    new CodeElement("psKeyword", new string[] { "function", "filter", "global", "script", "local", "private", "if", 
-                        "else", "elseif", "for", "foreach", "in", "while", "switch", "continue", "break", "return", "default", 
+                    new CodeElement("psKeyword", new string[] { "function", "filter", "global", "script", "local", "private", "if",
+                        "else", "elseif", "for", "foreach", "in", "while", "switch", "continue", "break", "return", "default",
                         "param", "begin", "process", "end", "throw", "trap"}),
-                    new CodeElement("psOperator", new string[] { "-band", "-bor", "-match", "-notmatch", "-like", "-notlike", "-eq", 
-                        "-ne", "-gt", "-ge", "-lt", "-le", "-is", "-imatch", "-inotmatch", "-ilike", "-inotlike", "-ieq", "-ine", 
+                    new CodeElement("psOperator", new string[] { "-band", "-bor", "-match", "-notmatch", "-like", "-notlike", "-eq",
+                        "-ne", "-gt", "-ge", "-lt", "-le", "-is", "-imatch", "-inotmatch", "-ilike", "-inotlike", "-ieq", "-ine",
                         "-igt", "-ige", "-ilt", "-ile" }),
                     new CodeElement("psVariable", @"\$[a-zA-Z0-9]+")
         };
@@ -132,15 +131,17 @@ namespace Ookii.FormatC
         /// failed and the <see cref="CodeFormatter"/> should fall back to regular formatting.</returns>
         public bool FormatCode(string code, TextWriter writer)
         {
-            if( code == null )
+            if (code == null)
+            {
                 throw new ArgumentNullException(nameof(code));
+            }
 
-            if( _parserType != null && !ForceFallbackFormatting )
+            if (_parserType != null && !ForceFallbackFormatting)
             {
                 var args = new object?[] { code, null };
                 IList tokens = (IList)_parserType.InvokeMember("Tokenize", BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static, null, null, args, CultureInfo.CurrentCulture);
                 var errors = (IList?)args[1];
-                if( errors?.Count > 0 )
+                if (errors?.Count > 0)
                 {
                     // Use fallback formatting if there were parsing errors.
                     return false;
@@ -148,11 +149,11 @@ namespace Ookii.FormatC
 
                 int currentColumn = 1;
                 int currentLine = 1;
-                foreach( dynamic token in tokens )
+                foreach (dynamic token in tokens)
                 {
                     string tokenValue = UpdateOutputPosition(code, ref currentColumn, ref currentLine, writer, token);
 
-                    switch( (PSTokenType)token.Type )
+                    switch ((PSTokenType)token.Type)
                     {
                     case PSTokenType.NewLine:
                         writer.Write(tokenValue);
@@ -166,6 +167,7 @@ namespace Ookii.FormatC
                         break;
                     }
                 }
+
                 return true;
             }
 

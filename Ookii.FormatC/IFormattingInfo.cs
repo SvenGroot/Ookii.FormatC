@@ -1,8 +1,6 @@
 // Copyright © Sven Groot (Ookii.org)
 // BSD license; see license.txt for details.
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ookii.FormatC
 {

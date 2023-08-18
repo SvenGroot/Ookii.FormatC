@@ -1,12 +1,11 @@
 // Copyright © Sven Groot (Ookii.org)
 // BSD license; see license.txt for details.
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Ookii.FormatC
 {
@@ -166,7 +165,7 @@ namespace Ookii.FormatC
         /// 	supported <see cref="ICustomFormattingInfo"/> and custom formatting failed; otherwise, <see langword="false"/>.
         /// </value>
         public bool UsedFallbackFormatting { get; private set; }
-	
+
         /// <summary>
         /// Formats the specified source code as HTML.
         /// </summary>
@@ -188,10 +187,15 @@ namespace Ookii.FormatC
         /// <example>For an example see <see cref="CodeFormatter"/>.</example>
         public void FormatCode(string code, TextWriter writer)
         {
-            if( code == null )
+            if (code == null)
+            {
                 throw new ArgumentNullException(nameof(code));
+            }
+
             if (writer == null)
+            {
                 throw new ArgumentNullException(nameof(writer));
+            }
 
             // Normalize newlines (needed for regular expressions)
             code = code.Replace("\r\n", "\n").Replace("\r", "\n");
@@ -199,9 +203,13 @@ namespace Ookii.FormatC
             code = code.Replace("\t", new string(' ', _tabSpaces));
 
             if (LineNumberMode == LineNumberMode.Table)
+            {
                 FormatCodeLineNumberTable(code, writer);
+            }
             else if (IncludePreElement)
+            {
                 writer.WriteStartElement("pre", CssClass);
+            }
 
             using (var codeWriter = new LineNumberTextWriter(writer))
             {
@@ -215,9 +223,13 @@ namespace Ookii.FormatC
             }
 
             if (LineNumberMode == LineNumberMode.Table)
+            {
                 writer.Write("</pre></td></tr></table></div>");
+            }
             else if (IncludePreElement)
+            {
                 writer.WriteEndElement("pre");
+            }
         }
 
         private void FormatCodeLineNumberTable(string code, TextWriter writer)
@@ -233,7 +245,10 @@ namespace Ookii.FormatC
                 while (reader.ReadLine() != null)
                 {
                     if (lineNumber > 0)
+                    {
                         writer.Write("<br />");
+                    }
+
                     ++lineNumber;
                     writer.Write(LineNumberFormat, lineNumber);
                 }
@@ -245,7 +260,7 @@ namespace Ookii.FormatC
         private static bool FormatCodeCore(IFormattingInfo info, string code, TextWriter result, bool splitLanguageRegions, int start, int length, bool needsFullContext)
         {
             bool usedFallbackFormatting = false;
-            if( splitLanguageRegions )
+            if (splitLanguageRegions)
             {
                 if (info is IMultilanguageFormattingInfo multilanguageInfo)
                 {
@@ -256,39 +271,56 @@ namespace Ookii.FormatC
             if (info is ICustomFormattingInfo customInfo)
             {
                 if (customInfo.FormatCode(code.Substring(start, length), result))
+                {
                     return false;
+                }
                 else
+                {
                     usedFallbackFormatting = true;
+                }
             }
 
             Regex regex = CreateRegex(info);
             Match match;
-            if( needsFullContext )
+            if (needsFullContext)
+            {
                 match = regex.Match(code, 0, code.Length);
+            }
             else
+            {
                 match = regex.Match(code, start, length);
+            }
 
             int previousMatchEnd = start;
-            while( match.Success )
+            while (match.Success)
             {
-                if( match.Index + match.Length > start + length )
+                if (match.Index + match.Length > start + length)
+                {
                     break;
-                if( match.Index >= start )
+                }
+
+                if (match.Index >= start)
                 {
                     if (previousMatchEnd < match.Index)
+                    {
                         WebUtility.HtmlEncode(code.Substring(previousMatchEnd, match.Index - previousMatchEnd), result);
+                    }
 
-                    foreach( CodeElement p in info.Patterns )
+                    foreach (CodeElement p in info.Patterns)
                     {
                         ProcessGroup(result, match, p);
                     }
+
                     previousMatchEnd = match.Index + match.Length;
                 }
+
                 match = match.NextMatch();
             }
 
-            if( previousMatchEnd < start + length )
+            if (previousMatchEnd < start + length)
+            {
                 WebUtility.HtmlEncode(code.Substring(previousMatchEnd, start + length - previousMatchEnd), result);
+            }
 
             return usedFallbackFormatting;
         }
@@ -298,24 +330,25 @@ namespace Ookii.FormatC
             bool usedFallbackFormatting = false;
             string? fullContextCode = null;
             LanguageRegion[] regions = multilanguageInfo.SplitRegions(code, start, length).ToArray();
-            foreach( LanguageRegion region in regions )
+            foreach (LanguageRegion region in regions)
             {
-                if( region.CssClass != null )
+                if (region.CssClass != null)
                 {
                     result.WriteStartElement(region.CssClass);
                 }
+
                 IFormattingInfo regionInfo = region.FormattingInfo ?? info;
 
                 string regionCode = code;
-                if( region.NeedsFullContext )
+                if (region.NeedsFullContext)
                 {
-                    if( fullContextCode == null )
-                        fullContextCode = StripAndAdjustRegionsForContext(code, regions, start, length);
+                    fullContextCode ??= StripAndAdjustRegionsForContext(code, regions, start, length);
                     regionCode = fullContextCode;
                 }
+
                 usedFallbackFormatting |= FormatCodeCore(regionInfo, regionCode, result, region.FormattingInfo != null, region.Start, region.Length, region.NeedsFullContext);
 
-                if( region.CssClass != null )
+                if (region.CssClass != null)
                 {
                     result.WriteEndElement();
                 }
@@ -327,19 +360,21 @@ namespace Ookii.FormatC
         private static void ProcessGroup(TextWriter result, Match match, CodeElement groupElement)
         {
             Group group = match.Groups[groupElement.Name];
-            if( group.Success && group.Length != 0 )
+            if (group.Success && group.Length != 0)
             {
-                if( groupElement.ElementNameIsCssClass )
+                if (groupElement.ElementNameIsCssClass)
                 {
                     result.WriteStartElement(groupElement.Name);
                 }
 
                 string value = group.Value;
-                if( groupElement.MatchValueProcessor != null )
+                if (groupElement.MatchValueProcessor != null)
+                {
                     value = groupElement.MatchValueProcessor(value);
+                }
 
                 WebUtility.HtmlEncode(value, result);
-                if( groupElement.ElementNameIsCssClass )
+                if (groupElement.ElementNameIsCssClass)
                 {
                     result.Write("</span>");
                 }
@@ -350,17 +385,21 @@ namespace Ookii.FormatC
         {
             var result = new StringBuilder(length);
             int offset = index;
-            foreach( LanguageRegion region in regions )
+            foreach (LanguageRegion region in regions)
             {
-                if( region.FormattingInfo == null )
+                if (region.FormattingInfo == null)
                 {
                     // Needs to be adjusted, and included.
                     result.Append(code, region.Start, region.Length);
-                    if( region.NeedsFullContext )
+                    if (region.NeedsFullContext)
+                    {
                         region.Start -= offset;
+                    }
                 }
                 else
+                {
                     offset += region.Length;
+                }
             }
 
             return result.ToString();
@@ -371,19 +410,26 @@ namespace Ookii.FormatC
             var pattern = new StringBuilder();
 
             bool first = true;
-            foreach( CodeElement p in info.Patterns )
+            foreach (CodeElement p in info.Patterns)
             {
-                if( first )
+                if (first)
+                {
                     first = false;
+                }
                 else
+                {
                     pattern.Append("|");
+                }
 
                 pattern.Append(p.Regex);
             }
 
             RegexOptions options = RegexOptions.Multiline;
-            if( !info.CaseSensitive )
+            if (!info.CaseSensitive)
+            {
                 options |= RegexOptions.IgnoreCase;
+            }
+
             return new Regex(pattern.ToString(), options);
         }
     }

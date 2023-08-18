@@ -26,12 +26,21 @@ namespace Ookii.FormatC
         /// <exception cref="ArgumentException"><paramref name="name"/> is an empty string.</exception>
         public CodeElement(string name, string regex)
         {
-            if( name == null )
+            if (name == null)
+            {
                 throw new ArgumentNullException(nameof(name));
-            if( regex == null )
+            }
+
+            if (regex == null)
+            {
                 throw new ArgumentNullException(nameof(regex));
-            if( name.Length == 0 )
+            }
+
+            if (name.Length == 0)
+            {
                 throw new ArgumentException(Properties.Resources.Error_NameEmptyString);
+            }
+
             ElementNameIsCssClass = true;
             _name = name;
             _regex = CreatePatternFromString(name, regex);
@@ -48,12 +57,21 @@ namespace Ookii.FormatC
         /// <exception cref="ArgumentException"><paramref name="name"/> is an empty string.</exception>
         public CodeElement(string name, IEnumerable<string> values)
         {
-            if( name == null )
+            if (name == null)
+            {
                 throw new ArgumentNullException(nameof(name));
-            if( values == null )
+            }
+
+            if (values == null)
+            {
                 throw new ArgumentNullException(nameof(values));
-            if( name.Length == 0 )
+            }
+
+            if (name.Length == 0)
+            {
                 throw new ArgumentException(Properties.Resources.Error_NameEmptyString);
+            }
+
             ElementNameIsCssClass = true;
             _name = name;
             _regex = CreatePatternFromValues(name, values);
@@ -115,14 +133,20 @@ namespace Ookii.FormatC
             result.Append(name);
             result.Append(@">");
             bool first = true;
-            foreach( string item in values )
+            foreach (string item in values)
             {
-                if( !first )
+                if (!first)
+                {
                     result.Append("|");
+                }
                 else
+                {
                     first = false;
+                }
+
                 result.Append(item);
             }
+
             result.Append(@")(?=(\W|$)))");
             return result.ToString();
         }

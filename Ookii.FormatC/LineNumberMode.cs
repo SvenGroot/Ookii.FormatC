@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ookii.FormatC
+﻿namespace Ookii.FormatC
 {
     /// <summary>
     /// Indicates if and how line numbers are added to the formatted code.

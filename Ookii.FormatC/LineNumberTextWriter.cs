@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Ookii.FormatC
 {
@@ -13,7 +10,7 @@ namespace Ookii.FormatC
         #region Nested types
 
         // We want to use the same code for either Write(char[]) and Write(string), without allocating a new char[] or string for either, so we provide this helper to access one or the other
-        private struct StringBuffer
+        private readonly struct StringBuffer
         {
             private readonly string? _stringValue;
             private readonly char[]? _charArrayValue;
@@ -44,12 +41,17 @@ namespace Ookii.FormatC
                     for (int x = index; x < end; ++x)
                     {
                         if (_charArrayValue![x] == '\r' || _charArrayValue[x] == '\n')
+                        {
                             return x;
+                        }
                     }
+
                     return -1;
                 }
                 else
+                {
                     return _stringValue.IndexOfAny(_lineBreakCharacters, index, end - index);
+                }
             }
 
             public int SkipLineBreak(int index, int end)
@@ -57,17 +59,25 @@ namespace Ookii.FormatC
                 Debug.Assert(index < end);
                 Debug.Assert(this[index] == '\r' || this[index] == '\n');
                 if (this[index] == '\r' && index + 1 < end && this[index + 1] == '\n')
+                {
                     return index + 2; // Windows line ending
+                }
                 else
+                {
                     return index + 1;
+                }
             }
 
             public void WriteTo(TextWriter writer, int index, int count)
             {
                 if (_stringValue == null)
+                {
                     writer.Write(_charArrayValue, index, count);
+                }
                 else
+                {
                     writer.Write(_stringValue.Substring(index, count));
+                }
             }
         }
 
@@ -107,13 +117,24 @@ namespace Ookii.FormatC
         public override void Write(char[] buffer, int index, int count)
         {
             if (buffer == null)
+            {
                 throw new ArgumentNullException(nameof(buffer));
+            }
+
             if (index < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             if (count < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(count));
+            }
+
             if ((buffer.Length - index) < count)
+            {
                 throw new ArgumentException();
+            }
 
             WriteCore(new StringBuffer(buffer), index, count);
         }
@@ -151,7 +172,9 @@ namespace Ookii.FormatC
             if (_state == State.PartialLineBreak)
             {
                 if (count > 0 && buffer[index] == '\n')
+                {
                     index += 1;
+                }
 
                 _baseWriter.WriteLine();
                 _state = State.StartOfLine;
@@ -163,7 +186,9 @@ namespace Ookii.FormatC
 
                 int lineEnd = buffer.IndexOfLineBreak(index, end);
                 if (lineEnd < 0)
+                {
                     lineEnd = end;
+                }
 
                 buffer.WriteTo(_baseWriter, index, lineEnd - index);
                 if (lineEnd == end - 1 && buffer[lineEnd] == '\r')
@@ -178,7 +203,9 @@ namespace Ookii.FormatC
                     _state = State.StartOfLine;
                 }
                 else
+                {
                     break;
+                }
             }
         }
 

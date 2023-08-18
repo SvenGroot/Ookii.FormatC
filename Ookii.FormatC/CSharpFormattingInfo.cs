@@ -1,8 +1,6 @@
 // Copyright © Sven Groot (Ookii.org)
 // BSD license; see license.txt for details.
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ookii.FormatC
 {
@@ -55,11 +53,11 @@ namespace Ookii.FormatC
         /// </value>
         public IEnumerable<CodeElement> Patterns
         {
-            get 
+            get
             {
-                if( _patterns == null )
+                if (_patterns == null)
                 {
-                    _patterns = new List<CodeElement>() { 
+                    _patterns = new List<CodeElement>() {
                         new CodeElement("comment", @"(/\*(.|\n)*?\*/)|(//.*?(?=$))"),
                         new CodeElement("string", @"(@("".*?"")*"".*?"")|("".*?(?<![^\\](\\\\)*\\)"")|('.*?(?<![^\\](\\\\)*\\)')"),
                         new CodeElement("escapedContextualKeyword", @"`[a-zA-Z0-9_]+") { ElementNameIsCssClass = false, MatchValueProcessor = value => value.Substring(1) },
@@ -79,12 +77,14 @@ namespace Ookii.FormatC
                             "group", "init", "into", "join", "let", "managed", "nameof", "nint", "not", "notnull", "nuint", "on", "or", "orderby",
                             "partial", "record", "remove", "required", "select", "set", "unmanaged", "value", "var", "when", "where", "with", "yield",
                         }),
-                        new CodeElement("preprocessor", new string[] { "#if", "#else", "#elif", "#endif", "#define", "#undef", "#warning", "#error", 
+                        new CodeElement("preprocessor", new string[] { "#if", "#else", "#elif", "#endif", "#define", "#undef", "#warning", "#error",
                         "#line", "#region", "#endregion", "#pragma", "#nullable" })
                     };
 
-                    if( _types != null )
+                    if (_types != null)
+                    {
                         _patterns.Add(new CodeElement("type", _types));
+                    }
                 }
 
                 return _patterns;
@@ -105,7 +105,7 @@ namespace Ookii.FormatC
             }
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Gets or sets a list of identifiers that should be treated as type names.
@@ -128,6 +128,5 @@ namespace Ookii.FormatC
                 _patterns = null;
             }
         }
-    
     }
 }

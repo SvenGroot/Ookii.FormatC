@@ -1,8 +1,6 @@
 // Copyright © Sven Groot (Ookii.org)
 // BSD license; see license.txt for details.
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ookii.FormatC
 {
@@ -64,9 +62,9 @@ namespace Ookii.FormatC
         /// </value>
         public IEnumerable<CodeElement> Patterns
         {
-            get 
+            get
             {
-                if( _patterns == null )
+                if (_patterns == null)
                 {
                     _patterns = new List<CodeElement> {
                         new CodeElement("comment", @"('|REM).*?$"),
@@ -84,7 +82,7 @@ namespace Ookii.FormatC
                             "EndIf", "Enum", "Erase", "Error", "Event", "Exit", "False", "Finally", "For","Friend", "Function", "Get", "GetType",
                             "GetXMLNamespace", "Global", "GoSub", "GoTo", "Handles", "If", "Implements", "Imports", "In", "Inherits", "Integer",
                             "Interface", "Is", "IsNot", "Let", "Lib", "Like", "Long", "Loop", "Me", "Mod", "Module", "MustInherit", "MustOverride",
-                            "MyBase", "MyClass", "Namespace", "Narrowing", "New", "Next", "Not", "Nothing", 
+                            "MyBase", "MyClass", "Namespace", "Narrowing", "New", "Next", "Not", "Nothing",
                             "NotInheritable", "NotOverridable", "Object", "Of", "On", "Operator", "Option", "Optional", "Or", "OrElse", "Out",
                             "Overloads", "Overridable", "Overrides", "ParamArray", "Partial", "Private", "Property", "Protected", "Public",
                             "RaiseEvent", "ReadOnly", "ReDim", "RemoveHandler", "Resume", "Return", "SByte", "Select", "Set", "Shadows", "Shared",
@@ -100,10 +98,13 @@ namespace Ookii.FormatC
                         new CodeElement("preprocessor", new string[] { "#Const", "#Else", "#ElseIf", "#End", "#If", "#Region", "#ExternalSource" })
                     };
 
-                    if( _types != null )
+                    if (_types != null)
+                    {
                         _patterns.Add(new CodeElement("type", _types));
+                    }
                 }
-                return _patterns; 
+
+                return _patterns;
             }
         }
 
@@ -155,7 +156,5 @@ namespace Ookii.FormatC
         {
             return MultilanguageHelper.SplitRegions(code, index, length, "[xml]", "[/xml]", true, "xmlLiteral", typeof(XmlLiteralFormattingInfo), Types, false);
         }
-
-
     }
 }
