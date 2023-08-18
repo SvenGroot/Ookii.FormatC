@@ -22,14 +22,19 @@
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Ookii.FormatC\Ookii.FormatC.csproj" xmlns="" />
     </DocumentationSources>
-    <CopyrightHref>https://www.ookii.org</CopyrightHref>
+    <CopyrightHref>https://github.com/SvenGroot/Ookii.FormatC</CopyrightHref>
     <CopyrightText>Copyright &amp;#169%3b Sven Groot %28Ookii.org%29</CopyrightText>
-    <HelpTitle>FormatC Syntax Highlighting Class Library</HelpTitle>
+    <HelpTitle>Ookii.FormatC 2.3 documentation</HelpTitle>
     <IndentHtml>False</IndentHtml>
     <NamingMethod>MemberName</NamingMethod>
-    <PresentationStyle>VS2013</PresentationStyle>
+    <PresentationStyle>Default2022</PresentationStyle>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="Ookii.FormatC" isDocumented="True" xmlns="">Contains types for the FormatC syntax highlighter.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Ookii.FormatC" isDocumented="True">&lt;para&gt;
+  Contains types for the FormatC syntax highlighter.
+&lt;/para&gt;
+&lt;para&gt;
+  Please see the &lt;see href="https://github.com/SvenGroot/Ookii.FormatC"&gt;GitHub project page&lt;/see&gt; for additional information, or &lt;see href="sample.html"&gt;view a sample&lt;/see&gt; of highlighted code in the various supported languages.
+&lt;/para&gt;</NamespaceSummaryItem>
     </NamespaceSummaries>
     <SyntaxFilters>Standard</SyntaxFilters>
     <CleanIntermediates>True</CleanIntermediates>
@@ -44,6 +49,8 @@
     <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional
